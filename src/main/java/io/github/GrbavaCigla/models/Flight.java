@@ -15,4 +15,9 @@ public class Flight {
         this.start = start;
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return origin + " -> " + destination + " (" + start.toString() + ")";
+    }
 }

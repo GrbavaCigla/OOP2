@@ -50,4 +50,9 @@ public class Airport extends Observable<Airport> {
         this.y = y;
         notifyObservers(this);
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + code + ")";
+    }
 }
