@@ -1,9 +1,12 @@
 package io.github.GrbavaCigla.gui;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Properties;
@@ -40,6 +43,13 @@ public class MainWindow extends Frame {
         add(map, BorderLayout.CENTER);
         add(airportsPanel, BorderLayout.WEST);
         add(flightsPanel, BorderLayout.EAST);
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+            @Override
+            public void eventDispatched(AWTEvent e) {
+                // TODO: Reset timer
+            }
+        }, (1L << 20) - 1);
 
         addWindowListener(new WindowAdapter() {
             @Override
