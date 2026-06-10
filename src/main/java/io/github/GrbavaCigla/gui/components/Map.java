@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui;
+package io.github.GrbavaCigla.gui.components;
 
 import java.awt.Canvas;
 

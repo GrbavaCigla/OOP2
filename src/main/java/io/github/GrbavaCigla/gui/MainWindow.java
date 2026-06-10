@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import java.util.Properties;
 
 import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.gui.components.Map;
+import io.github.GrbavaCigla.gui.components.ModelPanel;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
@@ -30,7 +32,6 @@ public class MainWindow extends Frame {
         map = new Map();
         airportsPanel = new ModelPanel<Airport>("Airport", Context.getInstance().getAirportModelList());
         flightsPanel = new ModelPanel<Flight>("Flights", Context.getInstance().getFlightModelList());
-
 
         add(map, BorderLayout.CENTER);
         add(airportsPanel, BorderLayout.WEST);

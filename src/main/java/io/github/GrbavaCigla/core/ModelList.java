@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ModelList<T> extends Observable<List<T>> {
-    private final List<T> data = new ArrayList<>();
+    private List<T> data = new ArrayList<>();
 
     public void add(T item) {
         data.add(item);
