@@ -3,18 +3,19 @@ package io.github.GrbavaCigla.gui.dialogs;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class WarningDialog extends Dialog {
+public class WarningDialog extends DerivedDialog {
     private static String title = "Warning";
 
-public WarningDialog(Frame parent, String message) {
-        super(parent, title, true);
+    public WarningDialog(Frame owner, String message) {
+        super(owner, title, true);
 
         Panel contentPanel = new Panel(new BorderLayout()) {
             @Override
@@ -29,23 +30,23 @@ public WarningDialog(Frame parent, String message) {
         okButton.addActionListener(e -> dispose());
         actionPanel.add(okButton);
         contentPanel.add(actionPanel, BorderLayout.SOUTH);
-        
+
         setLayout(new BorderLayout());
         add(contentPanel, BorderLayout.CENTER);
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
         pack();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(owner);
         setResizable(false);
     }
 
     public WarningDialog(Component parent, String message) {
         this(findFrame(parent), message);
-    }
-
-    private static Frame findFrame(Component component) {
-        while (component != null && !(component instanceof Frame)) {
-            component = component.getParent();
-        }
-        return (Frame) component;
     }
 }

@@ -11,6 +11,7 @@ import java.util.Properties;
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.gui.components.Map;
 import io.github.GrbavaCigla.gui.components.ModelPanel;
+import io.github.GrbavaCigla.gui.dialogs.AirportDialog;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
@@ -29,9 +30,12 @@ public class MainWindow extends Frame {
         setSize(size);
         setLayout(new BorderLayout());
 
+        Context ctx = Context.getInstance();
         map = new Map();
-        airportsPanel = new ModelPanel<Airport>("Airport", Context.getInstance().getAirportModelList());
-        flightsPanel = new ModelPanel<Flight>("Flights", Context.getInstance().getFlightModelList());
+        airportsPanel = new ModelPanel<Airport>("Airport", ctx.getAirportModelList(),
+                (e) -> new AirportDialog(this, e));
+        flightsPanel = new ModelPanel<Flight>("Flights", ctx.getFlightModelList(),
+                (e) -> new AirportDialog(this, null));
 
         add(map, BorderLayout.CENTER);
         add(airportsPanel, BorderLayout.WEST);
