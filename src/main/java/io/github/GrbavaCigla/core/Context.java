@@ -26,7 +26,7 @@ public class Context {
     //     tasksFactory = new ArrayList<Supplier<TimerTask>>();
     //     delays = new ArrayList<Long>();
     //     tasks = new ArrayList<TimerTask>();
-    // }
+    }
 
     public static Context getInstance() {
         if(instance == null) {
