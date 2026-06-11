@@ -11,22 +11,20 @@ import io.github.GrbavaCigla.models.Airport;
 
 public class App {
     public static void main(String[] args) {
-        Properties properties = new Properties();
-
         try (InputStream input = App.class.getClassLoader().getResourceAsStream("project.properties")) {
             if (input == null) {
                 System.out.println("Unable to find project.properties");
                 return;
             }
 
-            properties.load(input);
+            Context.getInstance().getProperties().load(input);
 
             ModelList<Airport> airportModel = Context.getInstance().getAirportModelList();
-            airportModel.add(new Airport("Test", "TST", 10.0f, 10.0f));
-            airportModel.add(new Airport("Test", "TST", 10.0f, 10.0f));
-            airportModel.add(new Airport("Test", "TST", 10.0f, 10.0f));
+            airportModel.add(new Airport("Test", "TST", 50.0f, 20.0f));
+            airportModel.add(new Airport("Test", "TST", 70.0f, 40.0f));
+            airportModel.add(new Airport("Test", "TST", 80.0f, 70.0f));
 
-            new MainWindow(properties);
+            new MainWindow();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -1,0 +1,102 @@
+package io.github.GrbavaCigla.gui.components;
+
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.List;
+
+import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.Observer;
+import io.github.GrbavaCigla.models.Airport;
+
+public class MapCanvas extends Canvas implements MouseListener, MouseMotionListener {
+
+    public MapCanvas() {
+        setBackground(Color.white);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public void paint(Graphics g) {
+        // g.setColor(Color.red);
+        // g.setFont(new Font("Bold", 1, 20));
+        // g.drawString("This is a canvas", 100, 100);
+        redraw(Context.getInstance().getAirportModelList().getModels());
+    }
+
+    public final Observer<Airport> itemObserver = (observable, model) -> {
+        this.redraw(Context.getInstance().getAirportModelList().getModels());
+    };
+
+    public final Observer<List<Airport>> listObserver = (observable, modelList) -> {
+        this.redraw(modelList);
+    };
+
+    private int getPixelX(float x) {
+        String limitString = Context.getInstance().getProperties().getProperty("airport.x.limit");
+        float limit = Integer.parseInt(limitString);
+        return Math.round((limit + x) / 2 / (float)limit * getSize().width);
+    }
+
+    private int getPixelY(float y) {
+        String limitString = Context.getInstance().getProperties().getProperty("airport.y.limit");
+        float limit = Integer.parseInt(limitString);
+        return Math.round((limit + y) / 2 / (float)limit * getSize().height);
+    }
+
+    private void clear() {
+        Graphics g = getGraphics();
+        g.clearRect(0, 0, getWidth(), getHeight());
+    }
+
+    public void redraw(List<Airport> airportList) {
+        clear();
+
+        Graphics g = getGraphics();
+        
+        g.setColor(Color.red);
+        g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+        g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+        
+        g.setColor(Color.gray);
+        String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
+        int markerSize = Integer.parseInt(markerSizeString);
+
+        for (Airport a : airportList) {
+            g.fillRect(getPixelX(a.getX()) - markerSize / 2, getPixelY(a.getY()) - markerSize / 2, markerSize, markerSize);
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        // Graphics g = getGraphics();
+
+        // g.setColor(Color.red);
+
+        // int x, y;
+        // x = e.getX();
+        // y = e.getY();
+
+        // g.fillOval(x, y, 5, 5);
+    }
+
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+}

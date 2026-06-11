@@ -7,4 +7,9 @@
 - Refactor AirportDialog
 - Replace List view with custom table
 - Recheck insets
-- 
+
+### A
+- Finish inactivity timer
+- Add airport code check
+- Add coordinates check
+- Add/Edit dialog styling

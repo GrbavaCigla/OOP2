@@ -1,5 +1,7 @@
 package io.github.GrbavaCigla.core;
 
+import java.util.Properties;
+
 // import java.util.ArrayList;
 // import java.util.List;
 // import java.util.Timer;
@@ -14,6 +16,7 @@ public class Context {
 
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
+    private Properties properties;
     // private Timer timer;
     // private List<Supplier<TimerTask>> tasksFactory;
     // private List<Long> delays;
@@ -22,6 +25,7 @@ public class Context {
     private Context() {
         airportModelList = new ModelList<Airport>();
         flightModelList = new ModelList<Flight>();
+        properties = new Properties();
     //     timer = new Timer(true);
     //     tasksFactory = new ArrayList<Supplier<TimerTask>>();
     //     delays = new ArrayList<Long>();
@@ -41,6 +45,10 @@ public class Context {
 
     public ModelList<Flight> getFlightModelList() {
         return flightModelList;
+    }
+
+    public Properties getProperties() {
+        return properties;
     }
 
     // public void addTimerTask(Supplier<TimerTask> tt, long delay) {
