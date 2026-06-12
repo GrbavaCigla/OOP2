@@ -14,6 +14,7 @@ import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 
 public class MapCanvas extends Canvas implements MouseListener, MouseMotionListener {
+    private Airport selectedAirport = null;
 
     public MapCanvas() {
         setBackground(Color.white);
@@ -36,13 +37,13 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
     private int getPixelX(float x) {
         String limitString = Context.getInstance().getProperties().getProperty("airport.x.limit");
         float limit = Integer.parseInt(limitString);
-        return Math.round((limit + x) / 2 / (float)limit * getSize().width);
+        return Math.round((limit + x) / 2 / (float) limit * getSize().width);
     }
 
     private int getPixelY(float y) {
         String limitString = Context.getInstance().getProperties().getProperty("airport.y.limit");
         float limit = Integer.parseInt(limitString);
-        return Math.round((limit + y) / 2 / (float)limit * getSize().height);
+        return Math.round((limit + y) / 2 / (float) limit * getSize().height);
     }
 
     private void clear() {
@@ -79,11 +80,11 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         clear();
 
         Graphics g = getGraphics();
-        
+
         g.setColor(Color.red);
         g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
         g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-        
+
         drawAirports();
     }
 
@@ -91,12 +92,23 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
-        for(Airport a : Context.getInstance().getAirportModelList().getModels()) {
+        for (Airport a : Context.getInstance().getAirportModelList().getModels()) {
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
 
             if (Math.abs(e.getX() - x) < markerSize && Math.abs(e.getY() - y) < markerSize) {
-                drawAirport(a, markerSize, Color.red);
+                if (selectedAirport == null) {
+                    drawAirport(a, markerSize, Color.red);
+                    selectedAirport = a;
+                } else if (a == selectedAirport) {
+                    drawAirport(a, markerSize, Color.lightGray);
+                    selectedAirport = null;
+                } else {
+                    drawAirport(selectedAirport, markerSize, Color.lightGray);
+                    selectedAirport = a;
+                    drawAirport(selectedAirport, markerSize, Color.red);
+                }
+                break;
             }
         }
         // Graphics g = getGraphics();
