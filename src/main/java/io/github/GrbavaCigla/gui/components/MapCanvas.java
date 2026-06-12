@@ -111,15 +111,6 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
                 break;
             }
         }
-        // Graphics g = getGraphics();
-
-        // g.setColor(Color.red);
-
-        // int x, y;
-        // x = e.getX();
-        // y = e.getY();
-
-        // g.fillOval(x, y, 5, 5);
     }
 
     public void mouseMoved(MouseEvent e) {
