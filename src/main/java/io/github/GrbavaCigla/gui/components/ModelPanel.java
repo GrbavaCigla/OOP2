@@ -18,7 +18,7 @@ import io.github.GrbavaCigla.gui.dialogs.WarningDialog;
 import java.util.List;
 import java.util.function.Function;
 
-public class ModelPanel<T> extends Panel {
+public class ModelPanel<T extends Observable<T>> extends Panel {
     private java.awt.List table;
     private ModelList<T> model;
     private Function<T, Dialog> dialogFactory;
@@ -43,8 +43,7 @@ public class ModelPanel<T> extends Panel {
 
         addActions();
 
-        model.addObserver(this.listObserver);
-
+        model.addObservers(itemObserver, listObserver);
         updateListView(model.getModels());
 
         setBackground(Color.LIGHT_GRAY);
@@ -105,12 +104,11 @@ public class ModelPanel<T> extends Panel {
     }
 
     private void updateListView(List<T> list) {
+        model.addObservers(itemObserver, listObserver);
         table.removeAll();
         for (T item : list) {
             if (item != null) {
-                ((Observable<T>) item).removeObserver(itemObserver);
                 table.add(item.toString());
-                ((Observable<T>) item).addObserver(itemObserver);
             }
         }
     }

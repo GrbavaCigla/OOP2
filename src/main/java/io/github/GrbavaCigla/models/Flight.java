@@ -3,7 +3,9 @@ package io.github.GrbavaCigla.models;
 import java.time.Duration;
 import java.time.LocalTime;
 
-public class Flight {
+import io.github.GrbavaCigla.core.Observable;
+
+public class Flight extends Observable<Flight> {
     Airport origin;
     Airport destination;
     LocalTime start;

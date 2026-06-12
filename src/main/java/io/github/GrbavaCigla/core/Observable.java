@@ -1,10 +1,9 @@
 package io.github.GrbavaCigla.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public abstract class Observable<T> {
-    private List<Observer<T>> observers = new ArrayList<>();
+    private HashSet<Observer<T>> observers = new HashSet<Observer<T>>();
 
     public void addObserver(Observer<T> observer) {
         observers.add(observer);
