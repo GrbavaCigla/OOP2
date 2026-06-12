@@ -72,8 +72,7 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
             dialog.setVisible(true);
             return;
         }
-        T elem = model.getModels().get(selectedIndex);
-        model.remove(elem);
+        model.remove(selectedIndex);
     }
 
     private void addActions() {

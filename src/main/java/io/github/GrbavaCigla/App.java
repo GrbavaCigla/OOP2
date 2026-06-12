@@ -2,7 +2,6 @@ package io.github.GrbavaCigla;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.ModelList;

@@ -12,8 +12,8 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
         notifyObservers(getModels());
     }
 
-    public void remove(T item) {
-        if (data.remove(item)) {
+    public void remove(int index) {
+        if (data.remove(index) != null) {
             notifyObservers(getModels());
         }
     }
