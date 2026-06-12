@@ -1,8 +1,9 @@
 package io.github.GrbavaCigla.models;
 
 import io.github.GrbavaCigla.core.Observable;
+import io.github.GrbavaCigla.core.Tabulatable;
 
-public class Airport extends Observable<Airport> {
+public class Airport extends Observable<Airport> implements Tabulatable {
     private String name;
     private String code;
     private float x;
@@ -64,5 +65,13 @@ public class Airport extends Observable<Airport> {
     @Override
     public String toString() {
         return name + " (" + code + ")";
+    }
+
+    public Object[] getColumns() {
+        return new Object[] {"Name", "Code"};
+    }
+
+    public Object[] getRow() {
+        return new Object[] {name, code};
     }
 }

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.Label;
@@ -13,13 +14,19 @@ import java.awt.Label;
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.core.Observer;
+import io.github.GrbavaCigla.core.Tabulatable;
 import io.github.GrbavaCigla.gui.dialogs.WarningDialog;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class ModelPanel<T extends Observable<T>> extends Panel {
-    private java.awt.List table;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
+    private JTable table;
     private ModelList<T> model;
     private Function<T, Dialog> dialogFactory;
 
@@ -31,6 +38,21 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
         this.updateListView(modelList);
     };
 
+    private TableModel getTableModel() {
+        List<T> list = model.getModels();
+
+        if (list.isEmpty()) {
+            return new DefaultTableModel(new Object[]{}, 0);
+        }
+
+        DefaultTableModel tableModel = new DefaultTableModel(list.get(0).getColumns(), 0);
+        for(T item : list) {
+            tableModel.addRow(item.getRow());
+        }
+
+        return tableModel;
+    }
+
     public ModelPanel(String title, ModelList<T> model, Function<T, Dialog> dialogFactory) {
         this.dialogFactory = dialogFactory;
         this.model = model;
@@ -38,8 +60,10 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
         setLayout(new BorderLayout(5, 5));
 
         add(new Label(title, Label.CENTER), BorderLayout.NORTH);
-        table = new java.awt.List();
-        add(table);
+        table = new JTable();
+        JScrollPane sp = new JScrollPane(table);
+        sp.setPreferredSize(new Dimension(200, 300));
+        add(sp);
 
         addActions();
 
@@ -55,7 +79,7 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
     }
 
     private void editModel(ActionEvent e) {
-        int selectedIndex = table.getSelectedIndex();
+        int selectedIndex = table.getSelectedRow();
         if (selectedIndex == -1) {
             WarningDialog dialog = new WarningDialog(this, "Please select an item to edit.");
             dialog.setVisible(true);
@@ -66,7 +90,7 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
     }
 
     private void deleteModel(ActionEvent e) {
-        int selectedIndex = table.getSelectedIndex();
+        int selectedIndex = table.getSelectedRow();
         if (selectedIndex == -1) {
             WarningDialog dialog = new WarningDialog(this, "Please select an item to delete.");
             dialog.setVisible(true);
@@ -80,13 +104,13 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
 
         Button addButton = new Button("Add");
         addButton.addActionListener(e -> addModel(e));
-        
+
         Button editButton = new Button("Edit");
         editButton.addActionListener(e -> editModel(e));
 
         Button deleteButton = new Button("Delete");
         deleteButton.addActionListener(e -> deleteModel(e));
-        
+
         actionsPanel.add(addButton);
         actionsPanel.add(editButton);
         actionsPanel.add(deleteButton);
@@ -104,11 +128,6 @@ public class ModelPanel<T extends Observable<T>> extends Panel {
 
     private void updateListView(List<T> list) {
         model.addObservers(itemObserver, listObserver);
-        table.removeAll();
-        for (T item : list) {
-            if (item != null) {
-                table.add(item.toString());
-            }
-        }
+        table.setModel(getTableModel());
     }
 }
