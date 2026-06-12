@@ -2,6 +2,7 @@ package io.github.GrbavaCigla.gui.components;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -49,9 +50,32 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         g.clearRect(0, 0, getWidth(), getHeight());
     }
 
-    public void redraw(List<Airport> airportList) {
+    private void drawAirport(Airport airport, int markerSize) {
+        Graphics g = getGraphics();
+        int x = getPixelX(airport.getX());
+        int y = getPixelY(airport.getY());
+
+        g.setColor(Color.lightGray);
+        g.fillRect(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
+
+        g.setColor(Color.black);
+        g.setFont(new Font(g.getFont().getFontName(), 400, 10));
+        g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
+    }
+
+    private void drawAirports() {
         Context ctx = Context.getInstance();
         ctx.getAirportModelList().addObservers(itemObserver, listObserver);
+
+        String markerSizeString = ctx.getProperties().getProperty("airport.marker.size");
+        int markerSize = Integer.parseInt(markerSizeString);
+
+        for (Airport a : ctx.getAirportModelList().getModels()) {
+            drawAirport(a, markerSize);
+        }
+    }
+
+    public void redraw(List<Airport> airportList) {
         clear();
 
         Graphics g = getGraphics();
@@ -60,13 +84,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
         g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
         
-        g.setColor(Color.gray);
-        String markerSizeString = ctx.getProperties().getProperty("airport.marker.size");
-        int markerSize = Integer.parseInt(markerSizeString);
-
-        for (Airport a : airportList) {
-            g.fillRect(getPixelX(a.getX()) - markerSize / 2, getPixelY(a.getY()) - markerSize / 2, markerSize, markerSize);
-        }
+        drawAirports();
     }
 
     public void mouseClicked(MouseEvent e) {
