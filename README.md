@@ -16,3 +16,4 @@
 
 ### B
 - Add to magic numbers to config
+- Airport filtering using sidebar

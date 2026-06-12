@@ -9,17 +9,29 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
 
+import javax.swing.Timer;
+
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 
 public class MapCanvas extends Canvas implements MouseListener, MouseMotionListener {
     private Airport selectedAirport = null;
+    private boolean selectedIsColored = false;
+    Timer timer;
 
     public MapCanvas() {
         setBackground(Color.white);
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
+        int markerSize = Integer.parseInt(markerSizeString);
+
+        timer = new Timer(200, e -> {
+            drawAirport(selectedAirport, markerSize, selectedIsColored ? Color.red : Color.lightGray);
+            selectedIsColored = !selectedIsColored;
+        });
     }
 
     public void paint(Graphics g) {
@@ -98,15 +110,21 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
 
             if (Math.abs(e.getX() - x) < markerSize && Math.abs(e.getY() - y) < markerSize) {
                 if (selectedAirport == null) {
-                    drawAirport(a, markerSize, Color.red);
+                    timer.stop();
                     selectedAirport = a;
+                    selectedIsColored = true;
+                    timer.restart();
                 } else if (a == selectedAirport) {
+                    timer.stop();
                     drawAirport(a, markerSize, Color.lightGray);
                     selectedAirport = null;
+                    selectedIsColored = false;
                 } else {
+                    timer.stop();
                     drawAirport(selectedAirport, markerSize, Color.lightGray);
                     selectedAirport = a;
-                    drawAirport(selectedAirport, markerSize, Color.red);
+                    selectedIsColored = true;
+                    timer.start();
                 }
                 break;
             }
