@@ -50,12 +50,12 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         g.clearRect(0, 0, getWidth(), getHeight());
     }
 
-    private void drawAirport(Airport airport, int markerSize) {
+    private void drawAirport(Airport airport, int markerSize, Color color) {
         Graphics g = getGraphics();
         int x = getPixelX(airport.getX());
         int y = getPixelY(airport.getY());
 
-        g.setColor(Color.lightGray);
+        g.setColor(color);
         g.fillRect(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
 
         g.setColor(Color.black);
@@ -71,7 +71,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         int markerSize = Integer.parseInt(markerSizeString);
 
         for (Airport a : ctx.getAirportModelList().getModels()) {
-            drawAirport(a, markerSize);
+            drawAirport(a, markerSize, Color.lightGray);
         }
     }
 
@@ -88,6 +88,17 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
     }
 
     public void mouseClicked(MouseEvent e) {
+        String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
+        int markerSize = Integer.parseInt(markerSizeString);
+
+        for(Airport a : Context.getInstance().getAirportModelList().getModels()) {
+            int x = getPixelX(a.getX());
+            int y = getPixelY(a.getY());
+
+            if (Math.abs(e.getX() - x) < markerSize && Math.abs(e.getY() - y) < markerSize) {
+                drawAirport(a, markerSize, Color.red);
+            }
+        }
         // Graphics g = getGraphics();
 
         // g.setColor(Color.red);
