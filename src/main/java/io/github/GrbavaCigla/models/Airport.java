@@ -8,6 +8,8 @@ public class Airport extends Observable<Airport> {
     private float x;
     private float y;
 
+    private boolean visible = false;
+
     public Airport(String name, String code, float x, float y) {
         this.name = name;
         this.code = code;
@@ -31,6 +33,10 @@ public class Airport extends Observable<Airport> {
         return y;
     }
 
+    public boolean getVisible() {
+        return visible;
+    }
+
     public void setName(String name) {
         this.name = name;
         notifyObservers(this);
@@ -49,6 +55,10 @@ public class Airport extends Observable<Airport> {
     public void setY(float y) {
         this.y = y;
         notifyObservers(this);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override
