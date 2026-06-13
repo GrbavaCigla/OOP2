@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.ie;
+package io.github.GrbavaCigla.core.interfaces;
 
 import java.io.BufferedReader;
 import java.util.List;

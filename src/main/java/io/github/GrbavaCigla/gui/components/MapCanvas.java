@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.Timer;
 
 import io.github.GrbavaCigla.core.Context;
-import io.github.GrbavaCigla.core.Observer;
+import io.github.GrbavaCigla.core.interfaces.Observer;
 import io.github.GrbavaCigla.models.Airport;
 
 public class MapCanvas extends Canvas implements MouseListener, MouseMotionListener {

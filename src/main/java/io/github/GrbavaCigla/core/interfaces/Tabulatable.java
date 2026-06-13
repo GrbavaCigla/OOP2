@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.core;
+package io.github.GrbavaCigla.core.interfaces;
 
 public interface Tabulatable {
     public Object[] getRow();

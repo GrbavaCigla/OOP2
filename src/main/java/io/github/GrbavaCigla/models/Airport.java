@@ -1,7 +1,7 @@
 package io.github.GrbavaCigla.models;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.Tabulatable;
+import io.github.GrbavaCigla.core.interfaces.Tabulatable;
 
 public class Airport extends Observable<Airport> implements Tabulatable {
     private String name;

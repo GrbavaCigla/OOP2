@@ -13,8 +13,8 @@ import java.awt.Label;
 
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.Observer;
-import io.github.GrbavaCigla.core.Tabulatable;
+import io.github.GrbavaCigla.core.interfaces.Observer;
+import io.github.GrbavaCigla.core.interfaces.Tabulatable;
 import io.github.GrbavaCigla.gui.dialogs.WarningDialog;
 
 import java.util.List;

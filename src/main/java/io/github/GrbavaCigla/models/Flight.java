@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.Tabulatable;
+import io.github.GrbavaCigla.core.interfaces.Tabulatable;
 
 public class Flight extends Observable<Flight> implements Tabulatable {
     Airport origin;
