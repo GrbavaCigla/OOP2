@@ -16,4 +16,4 @@
 
 ### B
 - Add to magic numbers to config
-- Airport filtering using sidebar
+- Selecting map airport should select it in the sidebar?
