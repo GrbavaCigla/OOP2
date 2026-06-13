@@ -24,12 +24,11 @@ public class MainWindow extends Frame {
 
     public MainWindow() {
         Context ctx = Context.getInstance();
-        Properties props = ctx.getProperties();
 
-        String title = props.getProperty("project.name");
+        String title = ctx.getProperty("project.name");
         Dimension size = new Dimension(
-                Integer.parseInt(props.getProperty("window.width")),
-                Integer.parseInt(props.getProperty("window.height")));
+                Integer.parseInt(ctx.getProperty("window.width")),
+                Integer.parseInt(ctx.getProperty("window.height")));
 
         setTitle(title);
         setSize(size);

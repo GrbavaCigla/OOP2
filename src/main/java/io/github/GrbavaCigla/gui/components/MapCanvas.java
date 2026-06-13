@@ -25,7 +25,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
+        String markerSizeString = Context.getInstance().getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
         timer = new Timer(200, e -> {
@@ -51,13 +51,13 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
     };
 
     private int getPixelX(float x) {
-        String limitString = Context.getInstance().getProperties().getProperty("airport.x.limit");
+        String limitString = Context.getInstance().getProperty("airport.x.limit");
         float limit = Integer.parseInt(limitString);
         return Math.round((limit + x) / 2 / (float) limit * getSize().width);
     }
 
     private int getPixelY(float y) {
-        String limitString = Context.getInstance().getProperties().getProperty("airport.y.limit");
+        String limitString = Context.getInstance().getProperty("airport.y.limit");
         float limit = Integer.parseInt(limitString);
         return Math.round((limit + y) / 2 / (float) limit * getSize().height);
     }
@@ -90,7 +90,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         Context ctx = Context.getInstance();
         ctx.getAirportModelList().addObservers(itemObserver, listObserver);
 
-        String markerSizeString = ctx.getProperties().getProperty("airport.marker.size");
+        String markerSizeString = ctx.getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
         for (Airport a : getVisibleAirports()) {
@@ -117,7 +117,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
     }
 
     public void mouseClicked(MouseEvent e) {
-        String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
+        String markerSizeString = Context.getInstance().getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
         for (Airport a : getVisibleAirports()) {

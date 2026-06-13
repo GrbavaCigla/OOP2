@@ -1,12 +1,8 @@
 package io.github.GrbavaCigla.core;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
-
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Timer;
-// import java.util.TimerTask;
-// import java.util.function.Supplier;
 
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
@@ -17,23 +13,15 @@ public class Context {
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
     private Properties properties;
-    // private Timer timer;
-    // private List<Supplier<TimerTask>> tasksFactory;
-    // private List<Long> delays;
-    // private List<TimerTask> tasks;
 
     private Context() {
         airportModelList = new ModelList<Airport>();
         flightModelList = new ModelList<Flight>();
         properties = new Properties();
-    //     timer = new Timer(true);
-    //     tasksFactory = new ArrayList<Supplier<TimerTask>>();
-    //     delays = new ArrayList<Long>();
-    //     tasks = new ArrayList<TimerTask>();
     }
 
     public static Context getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Context();
         }
         return instance;
@@ -47,27 +35,11 @@ public class Context {
         return flightModelList;
     }
 
-    public Properties getProperties() {
-        return properties;
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
-    // public void addTimerTask(Supplier<TimerTask> tt, long delay) {
-    //     tasksFactory.add(tt);
-    //     TimerTask task = tt.get();
-    //     tasks.add(task);
-    //     delays.add(delay);
-    //     timer.schedule(task, delay);
-    // }
-
-    // public void resetTimer() {
-    //     for(TimerTask task : tasks) {
-    //         task.cancel();
-    //     }
-    //     tasks.clear();
-    //     for(Supplier<TimerTask> taskFactory : tasksFactory) {
-    //         TimerTask task = taskFactory.get();
-    //         tasks.add(task);
-    //         timer.schedule(task, delays);
-    //     }
-    // }
+    public void loadProperties(InputStream input) throws IOException {
+        properties.load(input);
+    }
 }

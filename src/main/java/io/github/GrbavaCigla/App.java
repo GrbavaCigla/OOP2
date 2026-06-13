@@ -16,7 +16,7 @@ public class App {
                 return;
             }
 
-            Context.getInstance().getProperties().load(input);
+            Context.getInstance().loadProperties(input);
 
             ModelList<Airport> airportModel = Context.getInstance().getAirportModelList();
             airportModel.add(new Airport("Test", "TST", 50.0f, 20.0f));
