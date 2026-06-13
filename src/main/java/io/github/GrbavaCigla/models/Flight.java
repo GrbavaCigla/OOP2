@@ -24,13 +24,13 @@ public class Flight extends Observable<Flight> implements Tabulatable {
         return origin + " -> " + destination + " (" + start.toString() + ")";
     }
 
-	@Override
-	public Object[] getRow() {
-        return new Object[] {origin.getName(), destination.getName()};
+    @Override
+    public Object[] getRow() {
+        return new Object[] { origin.getName(), destination.getName() };
     }
 
-	@Override
-	public Object[] getColumns() {
-		return new Object[]{"Origin", "Destination"};
-	}
+    @Override
+    public Object[] getColumns() {
+        return new Object[] { "Origin", "Destination" };
+    }
 }

@@ -9,7 +9,7 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     private float x;
     private float y;
 
-    private boolean visible = false;
+    private boolean visible = true;
 
     public Airport(String name, String code, float x, float y) {
         this.name = name;
@@ -60,6 +60,7 @@ public class Airport extends Observable<Airport> implements Tabulatable {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+        notifyObservers(this);
     }
 
     @Override
@@ -68,10 +69,21 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     }
 
     public Object[] getColumns() {
-        return new Object[] {"Name", "Code"};
+        return new Object[] { "Name", "Code", "Visible" };
     }
 
     public Object[] getRow() {
-        return new Object[] {name, code};
+        return new Object[] { name, code, visible };
+    }
+
+    public Class<?> getColumnClass(int columnIndex) {
+        return columnIndex == 2 ? Boolean.class : String.class;
+    }
+
+    @Override
+    public void updateCell(Object value, int columnIndex) {
+        if (columnIndex == 2) {
+            setVisible((boolean) value);
+        }
     }
 }

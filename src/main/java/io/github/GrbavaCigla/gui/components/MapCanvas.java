@@ -34,16 +34,20 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         });
     }
 
+    private List<Airport> getVisibleAirports() {
+        return Context.getInstance().getAirportModelList().getModels().stream().filter(a -> a.getVisible()).toList();
+    }
+
     public void paint(Graphics g) {
-        redraw(Context.getInstance().getAirportModelList().getModels());
+        redraw(getVisibleAirports());
     }
 
     public final Observer<Airport> itemObserver = (observable, model) -> {
-        this.redraw(Context.getInstance().getAirportModelList().getModels());
+        redraw(getVisibleAirports());
     };
 
     public final Observer<List<Airport>> listObserver = (observable, modelList) -> {
-        this.redraw(modelList);
+        redraw(getVisibleAirports());
     };
 
     private int getPixelX(float x) {
@@ -64,6 +68,10 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
     }
 
     private void drawAirport(Airport airport, int markerSize, Color color) {
+        drawAirport(airport, markerSize, color, false);
+    }
+
+    private void drawAirport(Airport airport, int markerSize, Color color, boolean withText) {
         Graphics g = getGraphics();
         int x = getPixelX(airport.getX());
         int y = getPixelY(airport.getY());
@@ -71,9 +79,11 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         g.setColor(color);
         g.fillRect(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
 
-        g.setColor(Color.black);
-        g.setFont(new Font(g.getFont().getFontName(), 400, 10));
-        g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
+        if (withText) {
+            g.setColor(Color.black);
+            g.setFont(new Font(g.getFont().getFontName(), 400, 10));
+            g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
+        }
     }
 
     private void drawAirports() {
@@ -83,9 +93,15 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         String markerSizeString = ctx.getProperties().getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
-        for (Airport a : ctx.getAirportModelList().getModels()) {
-            drawAirport(a, markerSize, Color.lightGray);
+        for (Airport a : getVisibleAirports()) {
+            drawAirport(a, markerSize, Color.lightGray, true);
         }
+
+        if (!getVisibleAirports().contains(selectedAirport)) {
+            timer.stop();
+            selectedAirport = null;
+            selectedIsColored = false;
+        } 
     }
 
     public void redraw(List<Airport> airportList) {
@@ -104,7 +120,7 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         String markerSizeString = Context.getInstance().getProperties().getProperty("airport.marker.size");
         int markerSize = Integer.parseInt(markerSizeString);
 
-        for (Airport a : Context.getInstance().getAirportModelList().getModels()) {
+        for (Airport a : getVisibleAirports()) {
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
 

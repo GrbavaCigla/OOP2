@@ -42,11 +42,25 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
         List<T> list = model.getModels();
 
         if (list.isEmpty()) {
-            return new DefaultTableModel(new Object[]{}, 0);
+            return new DefaultTableModel(new Object[] {}, 0);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel(list.get(0).getColumns(), 0);
-        for(T item : list) {
+        DefaultTableModel tableModel = new DefaultTableModel(list.get(0).getColumns(), 0) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return list.get(0).getColumnClass(columnIndex);
+            }
+
+            @Override
+            public void setValueAt(Object value, int row, int column) {
+                super.setValueAt(value, row, column);
+                T item = model.getModels().get(row);
+                item.updateCell(value, column);
+            }
+        };
+
+
+        for (T item : list) {
             tableModel.addRow(item.getRow());
         }
 
