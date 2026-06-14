@@ -3,13 +3,16 @@ package io.github.GrbavaCigla.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import io.github.GrbavaCigla.core.interfaces.Observer;
 
 public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     private List<T> data = new ArrayList<>();
+    private List<Function<T, Object>> uniqueConstraintGetters = new ArrayList<>();
 
     public void add(T item) {
+        validate(item);
         data.add(item);
         notifyObservers(getModels());
     }
@@ -35,6 +38,21 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
         addObserver(os);
         for(T d : data) {
             d.addObserver(o);
+        }
+    }
+
+    public void addUniqueConstraint(Function<T, Object> uniqueConstraint) {
+        uniqueConstraintGetters.add(uniqueConstraint);
+    }
+
+    public void validate(T item) {
+        for (Function<T, Object> constraint : uniqueConstraintGetters) {
+            Object field = constraint.apply(item);
+            for(T d : data) {
+                if (constraint.apply(d).equals(field)) {
+                    throw new IllegalStateException("Unique constraint violated for value: " + field);
+                }
+            }
         }
     }
 }

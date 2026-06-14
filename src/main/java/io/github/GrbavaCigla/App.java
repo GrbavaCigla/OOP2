@@ -19,9 +19,10 @@ public class App {
             Context.getInstance().loadProperties(input);
 
             ModelList<Airport> airportModel = Context.getInstance().getAirportModelList();
+            airportModel.addUniqueConstraint((a) -> a.getCode());
             airportModel.add(new Airport("Test", "TST", 50.0f, 20.0f));
-            airportModel.add(new Airport("Test", "TST", 70.0f, 40.0f));
-            airportModel.add(new Airport("Test", "TST", 80.0f, 70.0f));
+            airportModel.add(new Airport("Test", "TSG", 70.0f, 40.0f));
+            airportModel.add(new Airport("Test", "TSH", 80.0f, 70.0f));
 
             new MainWindow();
         } catch (IOException ex) {
