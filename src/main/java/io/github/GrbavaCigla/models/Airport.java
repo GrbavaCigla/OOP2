@@ -85,16 +85,24 @@ public class Airport extends Observable<Airport> implements Tabulatable {
         return name + " (" + code + ")";
     }
 
+    @Override
     public Object[] getColumns() {
         return new Object[] { "Name", "Code", "Visible" };
     }
 
+    @Override
     public Object[] getRow() {
         return new Object[] { name, code, visible };
     }
 
+    @Override
     public Class<?> getColumnClass(int columnIndex) {
         return columnIndex == 2 ? Boolean.class : String.class;
+    }
+
+    @Override
+    public boolean isColumnEditable(int column) {
+        return column == 2; 
     }
 
     @Override

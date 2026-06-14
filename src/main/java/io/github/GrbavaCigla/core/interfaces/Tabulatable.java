@@ -12,4 +12,8 @@ public interface Tabulatable {
     public default void updateCell(Object value, int columnIndex) {
 
     }
+
+    public default boolean isColumnEditable(int column) {
+        return false; 
+    }
 }

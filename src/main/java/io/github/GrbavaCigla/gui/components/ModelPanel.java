@@ -57,6 +57,11 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
                 T item = model.getModels().get(row);
                 item.updateCell(value, column);
             }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return list.get(row).isColumnEditable(column);
+            }
         };
 
         for (T item : list) {

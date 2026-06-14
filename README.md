@@ -1,10 +1,9 @@
 # OOP2
 
 ## TODO
-- Make ModelPanel update single item not call redraw of everything
-- Make table editing forbidden or make it work
-- Convert everything to Swing
 - Fix repainting logic
+- Convert everything to Swing
+- Make ModelPanel update single item not call redraw of everything
 - Refactor table model logic
 
 ### A
