@@ -39,23 +39,31 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     }
 
     public void setName(String name) {
-        this.name = name;
-        notifyObservers(this);
+        if (this.name != name) {
+            this.name = name;
+            notifyObservers(this);
+        }
     }
 
     public void setCode(String code) {
-        this.code = code;
-        notifyObservers(this);
+        if (this.code != code) {
+            this.code = code;
+            notifyObservers(this);
+        }
     }
 
     public void setX(float x) {
-        this.x = x;
-        notifyObservers(this);
+        if (this.x != x) {
+            this.x = x;
+            notifyObservers(this);
+        }
     }
 
     public void setY(float y) {
-        this.y = y;
-        notifyObservers(this);
+        if (this.y != y) {
+            this.y = y;
+            notifyObservers(this);
+        }
     }
 
     public void update(String name, String code, float x, float y) {

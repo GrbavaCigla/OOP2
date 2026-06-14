@@ -2,8 +2,6 @@
 
 ## TODO
 - Make ModelPanel update single item not call redraw of everything
-- Refactor AirportDialog
-- Recheck insets
 - Make table editing forbidden or make it work
 - Convert everything to Swing
 - Fix repainting logic

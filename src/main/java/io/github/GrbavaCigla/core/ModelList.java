@@ -21,8 +21,10 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     }
 
     public void clear() {
-        data.clear();
-        notifyObservers(getModels());
+        if (!data.isEmpty()) {
+            data.clear();
+            notifyObservers(getModels());
+        }
     }
 
     public List<T> getModels() {
