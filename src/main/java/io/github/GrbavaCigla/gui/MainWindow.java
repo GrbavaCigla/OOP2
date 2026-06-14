@@ -39,9 +39,9 @@ public class MainWindow extends Frame {
         Panel mainPanel = new Panel(new BorderLayout());
 
         map = new MapCanvas();
-        airportsPanel = new ModelPanel<Airport>("Airport", ctx.getAirportModelList(),
+        airportsPanel = new ModelPanel<>("Airport", ctx.getAirportModelList(),
                 (e) -> new AirportDialog(this, e));
-        flightsPanel = new ModelPanel<Flight>("Flights", ctx.getFlightModelList(),
+        flightsPanel = new ModelPanel<>("Flights", ctx.getFlightModelList(),
                 (e) -> new AirportDialog(this, null));
         simulationPanel = new SimulationControls();
 

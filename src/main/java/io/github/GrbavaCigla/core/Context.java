@@ -15,8 +15,8 @@ public class Context {
     private Properties properties;
 
     private Context() {
-        airportModelList = new ModelList<Airport>();
-        flightModelList = new ModelList<Flight>();
+        airportModelList = new ModelList<>();
+        flightModelList = new ModelList<>();
         properties = new Properties();
     }
 

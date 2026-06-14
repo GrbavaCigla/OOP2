@@ -5,7 +5,7 @@ import java.util.HashSet;
 import io.github.GrbavaCigla.core.interfaces.Observer;
 
 public abstract class Observable<T> {
-    private HashSet<Observer<T>> observers = new HashSet<Observer<T>>();
+    private HashSet<Observer<T>> observers = new HashSet<>();
 
     public void addObserver(Observer<T> observer) {
         observers.add(observer);
