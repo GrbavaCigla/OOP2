@@ -58,6 +58,15 @@ public class Airport extends Observable<Airport> implements Tabulatable {
         notifyObservers(this);
     }
 
+    public void update(String name, String code, float x, float y) {
+        this.name = name;
+        this.code = code;
+        this.x = x;
+        this.y = y;
+
+        notifyObservers(this);
+    }
+
     public void setVisible(boolean visible) {
         this.visible = visible;
         notifyObservers(this);

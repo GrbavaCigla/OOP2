@@ -15,11 +15,11 @@ import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.core.interfaces.Observer;
 import io.github.GrbavaCigla.core.interfaces.Tabulatable;
-import io.github.GrbavaCigla.gui.dialogs.WarningDialog;
 
 import java.util.List;
 import java.util.function.Function;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -59,7 +59,6 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
             }
         };
 
-
         for (T item : list) {
             tableModel.addRow(item.getRow());
         }
@@ -95,8 +94,8 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
     private void editModel(ActionEvent e) {
         int selectedIndex = table.getSelectedRow();
         if (selectedIndex == -1) {
-            WarningDialog dialog = new WarningDialog(this, "Please select an item to edit.");
-            dialog.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Please select an item to edit.", "Nothing is selected",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         T elem = model.getModels().get(selectedIndex);
@@ -106,8 +105,8 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
     private void deleteModel(ActionEvent e) {
         int selectedIndex = table.getSelectedRow();
         if (selectedIndex == -1) {
-            WarningDialog dialog = new WarningDialog(this, "Please select an item to delete.");
-            dialog.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Please select an item to delete.", "Nothing is selected",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         model.remove(selectedIndex);
