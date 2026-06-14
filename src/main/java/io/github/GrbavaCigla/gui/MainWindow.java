@@ -4,15 +4,16 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Properties;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.gui.components.MapCanvas;
 import io.github.GrbavaCigla.gui.components.ModelPanel;
+import io.github.GrbavaCigla.gui.components.SimulationControls;
 import io.github.GrbavaCigla.gui.dialogs.AirportDialog;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
@@ -21,6 +22,7 @@ public class MainWindow extends Frame {
     private MapCanvas map;
     private ModelPanel<Airport> airportsPanel;
     private ModelPanel<Flight> flightsPanel;
+    private SimulationControls simulationPanel;
 
     public MainWindow() {
         Context ctx = Context.getInstance();
@@ -34,15 +36,21 @@ public class MainWindow extends Frame {
         setSize(size);
         setLayout(new BorderLayout());
 
+        Panel mainPanel = new Panel(new BorderLayout());
+
         map = new MapCanvas();
         airportsPanel = new ModelPanel<Airport>("Airport", ctx.getAirportModelList(),
                 (e) -> new AirportDialog(this, e));
         flightsPanel = new ModelPanel<Flight>("Flights", ctx.getFlightModelList(),
                 (e) -> new AirportDialog(this, null));
+        simulationPanel = new SimulationControls();
 
-        add(map, BorderLayout.CENTER);
+        mainPanel.add(map, BorderLayout.CENTER);
+        mainPanel.add(simulationPanel, BorderLayout.NORTH);
+
         add(airportsPanel, BorderLayout.WEST);
         add(flightsPanel, BorderLayout.EAST);
+        add(mainPanel, BorderLayout.CENTER);
 
         Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
             @Override
