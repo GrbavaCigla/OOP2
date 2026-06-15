@@ -39,34 +39,37 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     }
 
     public void setName(String name) {
-        if (this.name != name) {
-            this.name = name;
-            notifyObservers(this);
-        }
+        if (this.name == name)
+            return;
+        this.name = name;
+        notifyObservers(this);
     }
 
     public void setCode(String code) {
-        if (this.code != code) {
-            this.code = code;
-            notifyObservers(this);
-        }
+        if (this.code == code)
+            return;
+        this.code = code;
+        notifyObservers(this);
     }
 
     public void setX(float x) {
-        if (this.x != x) {
-            this.x = x;
-            notifyObservers(this);
-        }
+        if (this.x == x)
+            return;
+        this.x = x;
+        notifyObservers(this);
     }
 
     public void setY(float y) {
-        if (this.y != y) {
-            this.y = y;
-            notifyObservers(this);
-        }
+        if (this.y == y)
+            return;
+        this.y = y;
+        notifyObservers(this);
     }
 
     public void update(String name, String code, float x, float y) {
+        if (this.name == name && this.code == code && this.x == x && this.y == y)
+            return;
+
         this.name = name;
         this.code = code;
         this.x = x;
@@ -102,7 +105,7 @@ public class Airport extends Observable<Airport> implements Tabulatable {
 
     @Override
     public boolean isColumnEditable(int column) {
-        return column == 2; 
+        return column == 2;
     }
 
     @Override

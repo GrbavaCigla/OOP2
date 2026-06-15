@@ -91,8 +91,8 @@ public class AirportDialog extends DerivedDialog {
                         .getAirportModelList()
                         .add(new Airport(name, code, x, y));
             } else {
-                Context.getInstance().getAirportModelList().validate(new Airport(name, code, x, y));
-                airport.update(name, code, x, y);
+                Airport newAirport = new Airport(name, code, x, y);
+                Context.getInstance().getAirportModelList().validate(newAirport, airport);
             }
 
             dispose();

@@ -46,9 +46,14 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     }
 
     public void validate(T item) {
+        validate(item, null);
+    }
+
+    public void validate(T item, T old) {
         for (Function<T, Object> constraint : uniqueConstraintGetters) {
             Object field = constraint.apply(item);
             for(T d : data) {
+                if (d == old) continue;
                 if (constraint.apply(d).equals(field)) {
                     throw new IllegalStateException("Unique constraint violated for value: " + field);
                 }
