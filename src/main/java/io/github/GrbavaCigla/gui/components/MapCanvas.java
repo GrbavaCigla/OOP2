@@ -1,5 +1,6 @@
 package io.github.GrbavaCigla.gui.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,20 +22,34 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     List<Airport> airports;
     private Airport selectedAirport = null;
     private boolean selectedIsColored = false;
-    private int markerSize;
+    private JLabel mousePositionLabel;
     Timer timer;
+
+    private int markerSize;
+    private float xLimit;
+    private float yLimit;
 
     public MapCanvas() {
         setBackground(Color.white);
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        Context.getInstance().getAirportModelList().addObservers(itemObserver, listObserver);
+        mousePositionLabel = new JLabel("X: 0, Y: 0");
+        add(mousePositionLabel, BorderLayout.NORTH);
+
+        Context ctx = Context.getInstance();
+        ctx.getAirportModelList().addObservers(itemObserver, listObserver);
 
         airports = getVisibleAirports();
 
-        String markerSizeString = Context.getInstance().getProperty("airport.marker.size");
+        String markerSizeString = ctx.getProperty("airport.marker.size");
         markerSize = Integer.parseInt(markerSizeString);
+
+        String xLimitString = ctx.getProperty("airport.x.limit");
+        xLimit = Float.parseFloat(xLimitString);
+
+        String yLimitString = ctx.getProperty("airport.y.limit");
+        yLimit = Float.parseFloat(yLimitString);
 
         timer = new Timer(200, e -> {
             int x = getPixelX(selectedAirport.getX());
@@ -83,6 +99,14 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         return Math.round((limit + y) / 2 / (float) limit * getSize().height);
     }
 
+    private float getCoordinateX(int x) {
+        return ((x * 2.0f * xLimit) / getSize().width) - xLimit;
+    }
+
+    private float getCoordinateY(int y) {
+        return ((y * 2.0f * yLimit) / getSize().height) - yLimit;
+    }
+
     private void drawAirport(Graphics g, Airport airport, int markerSize) {
         int x = getPixelX(airport.getX());
         int y = getPixelY(airport.getY());
@@ -123,6 +147,10 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     }
 
     public void mouseMoved(MouseEvent e) {
+        float coordX = getCoordinateX(e.getX());
+        float coordY = getCoordinateY(e.getY());
+
+        mousePositionLabel.setText(String.format("X: %.2f, Y: %.2f", coordX, coordY));
     }
 
     public void mouseDragged(MouseEvent e) {
