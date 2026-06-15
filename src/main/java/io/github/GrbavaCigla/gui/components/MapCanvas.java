@@ -4,20 +4,24 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.interfaces.Observer;
 import io.github.GrbavaCigla.models.Airport;
 
-public class MapCanvas extends Canvas implements MouseListener, MouseMotionListener {
+public class MapCanvas extends JPanel implements MouseListener, MouseMotionListener {
+    List<Airport> airports;
     private Airport selectedAirport = null;
     private boolean selectedIsColored = false;
+    private int markerSize;
     Timer timer;
 
     public MapCanvas() {
@@ -25,12 +29,20 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
 
+        Context.getInstance().getAirportModelList().addObservers(itemObserver, listObserver);
+
+        airports = getVisibleAirports();
+
         String markerSizeString = Context.getInstance().getProperty("airport.marker.size");
-        int markerSize = Integer.parseInt(markerSizeString);
+        markerSize = Integer.parseInt(markerSizeString);
 
         timer = new Timer(200, e -> {
-            drawAirport(selectedAirport, markerSize, selectedIsColored ? Color.red : Color.lightGray);
+            int x = getPixelX(selectedAirport.getX());
+            int y = getPixelY(selectedAirport.getY());
+
+            repaint(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
             selectedIsColored = !selectedIsColored;
+            // Toolkit.getDefaultToolkit().sync();
         });
     }
 
@@ -38,16 +50,26 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         return Context.getInstance().getAirportModelList().getModels().stream().filter(a -> a.getVisible()).toList();
     }
 
-    public void paint(Graphics g) {
-        redraw(getVisibleAirports());
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.red);
+        g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+        g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+
+        for (Airport a : airports) {
+            drawAirport(g, a, markerSize);
+        }
     }
 
     public final Observer<Airport> itemObserver = (observable, model) -> {
-        redraw(getVisibleAirports());
+        airports = getVisibleAirports();
+        repaint();
     };
 
     public final Observer<List<Airport>> listObserver = (observable, modelList) -> {
-        redraw(getVisibleAirports());
+        airports = getVisibleAirports();
+        repaint();
     };
 
     private int getPixelX(float x) {
@@ -62,65 +84,20 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
         return Math.round((limit + y) / 2 / (float) limit * getSize().height);
     }
 
-    private void clear() {
-        Graphics g = getGraphics();
-        g.clearRect(0, 0, getWidth(), getHeight());
-    }
-
-    private void drawAirport(Airport airport, int markerSize, Color color) {
-        drawAirport(airport, markerSize, color, false);
-    }
-
-    private void drawAirport(Airport airport, int markerSize, Color color, boolean withText) {
-        Graphics g = getGraphics();
+    private void drawAirport(Graphics g, Airport airport, int markerSize) {
         int x = getPixelX(airport.getX());
         int y = getPixelY(airport.getY());
 
-        g.setColor(color);
+        g.setColor(airport == selectedAirport && selectedIsColored ? Color.RED : Color.LIGHT_GRAY);
         g.fillRect(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
 
-        if (withText) {
-            g.setColor(Color.black);
-            g.setFont(new Font(g.getFont().getFontName(), 400, 10));
-            g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
-        }
-    }
-
-    private void drawAirports() {
-        Context ctx = Context.getInstance();
-        ctx.getAirportModelList().addObservers(itemObserver, listObserver);
-
-        String markerSizeString = ctx.getProperty("airport.marker.size");
-        int markerSize = Integer.parseInt(markerSizeString);
-
-        for (Airport a : getVisibleAirports()) {
-            drawAirport(a, markerSize, Color.lightGray, true);
-        }
-
-        if (!getVisibleAirports().contains(selectedAirport)) {
-            timer.stop();
-            selectedAirport = null;
-            selectedIsColored = false;
-        } 
-    }
-
-    public void redraw(List<Airport> airportList) {
-        clear();
-
-        Graphics g = getGraphics();
-
-        g.setColor(Color.red);
-        g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
-        g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
-        drawAirports();
+        g.setColor(Color.black);
+        g.setFont(new Font(g.getFont().getFontName(), 400, 10));
+        g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
     }
 
     public void mouseClicked(MouseEvent e) {
-        String markerSizeString = Context.getInstance().getProperty("airport.marker.size");
-        int markerSize = Integer.parseInt(markerSizeString);
-
-        for (Airport a : getVisibleAirports()) {
+        for (Airport a : airports) {
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
 
@@ -132,16 +109,15 @@ public class MapCanvas extends Canvas implements MouseListener, MouseMotionListe
                     timer.restart();
                 } else if (a == selectedAirport) {
                     timer.stop();
-                    drawAirport(a, markerSize, Color.lightGray);
                     selectedAirport = null;
                     selectedIsColored = false;
                 } else {
                     timer.stop();
-                    drawAirport(selectedAirport, markerSize, Color.lightGray);
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.start();
                 }
+                repaint();
                 break;
             }
         }
