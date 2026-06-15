@@ -40,9 +40,9 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
             int x = getPixelX(selectedAirport.getX());
             int y = getPixelY(selectedAirport.getY());
 
-            repaint(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
+            paintImmediately(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
+            Toolkit.getDefaultToolkit().sync();
             selectedIsColored = !selectedIsColored;
-            // Toolkit.getDefaultToolkit().sync();
         });
     }
 
