@@ -1,10 +1,20 @@
 package io.github.GrbavaCigla.gui.dialogs;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.gui.components.CodeField;
@@ -32,7 +42,7 @@ public class AirportDialog extends DerivedDialog {
         super(owner, airport == null ? "Add airport" : "Edit airport", true);
         this.airport = airport;
 
-        Panel contentPanel = new Panel(new GridBagLayout()) {
+        JPanel contentPanel = new JPanel(new GridBagLayout()) {
             @Override
             public Insets getInsets() {
                 return new Insets(10, 10, 10, 10);
@@ -49,7 +59,7 @@ public class AirportDialog extends DerivedDialog {
         addField(contentPanel, "X", xField);
         addField(contentPanel, "Y", yField);
 
-        Button submitButton = new Button("Submit");
+        JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> onSubmit());
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -96,7 +106,6 @@ public class AirportDialog extends DerivedDialog {
             }
 
             dispose();
-
         } catch (Exception ex) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(
@@ -107,14 +116,15 @@ public class AirportDialog extends DerivedDialog {
         }
     }
 
-    private void addField(Panel panel, String name, Component field) {
+    private void addField(JPanel panel, String name, Component field) {
         GridBagConstraints constraints = new GridBagConstraints();
-
+        
         constraints.gridx = 0;
         constraints.gridy = gridYCounter++;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 1.0;
-        panel.add(new Label(name), constraints);
+
+        panel.add(new JLabel(name), constraints);
 
         constraints.gridy = gridYCounter++;
         panel.add(field, constraints);

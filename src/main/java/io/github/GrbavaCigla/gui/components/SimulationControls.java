@@ -1,27 +1,28 @@
 package io.github.GrbavaCigla.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Label;
-import java.awt.Panel;
 
-public class SimulationControls extends Panel {
-    Label timerLabel;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+public class SimulationControls extends JPanel {
+    JLabel timerLabel;
 
     public SimulationControls() {
         super(new BorderLayout());
 
         setBackground(Color.lightGray);
 
-        Panel actionsPanel = new Panel(new FlowLayout());
+        JPanel actionsPanel = new JPanel(new FlowLayout());
 
-        actionsPanel.add(new Button("Start"));
-        actionsPanel.add(new Button("Stop/Resume"));
-        actionsPanel.add(new Button("Reset"));
+        actionsPanel.add(new JButton("Start"));
+        actionsPanel.add(new JButton("Stop/Resume"));
+        actionsPanel.add(new JButton("Reset"));
 
-        timerLabel = new Label();
+        timerLabel = new JLabel("");
 
         add(actionsPanel, BorderLayout.CENTER);
         add(timerLabel);

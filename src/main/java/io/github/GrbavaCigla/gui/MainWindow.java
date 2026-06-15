@@ -3,12 +3,11 @@ package io.github.GrbavaCigla.gui;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Panel;
 import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.gui.components.MapCanvas;
@@ -18,7 +17,7 @@ import io.github.GrbavaCigla.gui.dialogs.AirportDialog;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
-public class MainWindow extends Frame {
+public class MainWindow extends JFrame {
     private MapCanvas map;
     private ModelPanel<Airport> airportsPanel;
     private ModelPanel<Flight> flightsPanel;
@@ -26,7 +25,6 @@ public class MainWindow extends Frame {
 
     public MainWindow() {
         Context ctx = Context.getInstance();
-
         String title = ctx.getProperty("project.name");
         Dimension size = new Dimension(
                 Integer.parseInt(ctx.getProperty("window.width")),
@@ -36,7 +34,7 @@ public class MainWindow extends Frame {
         setSize(size);
         setLayout(new BorderLayout());
 
-        Panel mainPanel = new Panel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
         map = new MapCanvas();
         airportsPanel = new ModelPanel<>("Airport", ctx.getAirportModelList(),
@@ -52,19 +50,11 @@ public class MainWindow extends Frame {
         add(flightsPanel, BorderLayout.EAST);
         add(mainPanel, BorderLayout.CENTER);
 
-        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-            @Override
-            public void eventDispatched(AWTEvent e) {
-                // TODO: Reset timer
-            }
+        Toolkit.getDefaultToolkit().addAWTEventListener((AWTEvent e) -> {
+            // TODO: Reset timer
         }, (1L << 20) - 1);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         setVisible(true);
     }

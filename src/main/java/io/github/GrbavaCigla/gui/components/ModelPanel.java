@@ -1,15 +1,11 @@
 package io.github.GrbavaCigla.gui.components;
 
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
-import java.awt.Label;
 
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
@@ -19,16 +15,21 @@ import io.github.GrbavaCigla.core.interfaces.Tabulatable;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
+public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
     private JTable table;
     private ModelList<T> model;
-    private Function<T, Dialog> dialogFactory;
+    private Function<T, JDialog> dialogFactory;
 
     public final Observer<T> itemObserver = (observable, model) -> {
         this.updateItemView(model);
@@ -71,13 +72,15 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
         return tableModel;
     }
 
-    public ModelPanel(String title, ModelList<T> model, Function<T, Dialog> dialogFactory) {
+    public ModelPanel(String title, ModelList<T> model, Function<T, JDialog> dialogFactory) {
         this.dialogFactory = dialogFactory;
         this.model = model;
 
         setLayout(new BorderLayout(5, 5));
 
-        add(new Label(title, Label.CENTER), BorderLayout.NORTH);
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
+
         table = new JTable();
         JScrollPane sp = new JScrollPane(table);
         sp.setPreferredSize(new Dimension(200, 300));
@@ -118,15 +121,15 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends Panel {
     }
 
     private void addActions() {
-        Panel actionsPanel = new Panel(new FlowLayout());
+        JPanel actionsPanel = new JPanel(new FlowLayout());
 
-        Button addButton = new Button("Add");
+        JButton addButton = new JButton("Add");
         addButton.addActionListener(e -> addModel(e));
 
-        Button editButton = new Button("Edit");
+        JButton editButton = new JButton("Edit");
         editButton.addActionListener(e -> editModel(e));
 
-        Button deleteButton = new Button("Delete");
+        JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> deleteModel(e));
 
         actionsPanel.add(addButton);

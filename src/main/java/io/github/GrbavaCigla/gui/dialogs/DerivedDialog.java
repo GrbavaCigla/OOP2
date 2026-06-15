@@ -1,10 +1,11 @@
 package io.github.GrbavaCigla.gui.dialogs;
 
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Frame;
 
-public abstract class DerivedDialog extends Dialog {
+import javax.swing.JDialog;
+
+public abstract class DerivedDialog extends JDialog {
     public DerivedDialog(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
     }

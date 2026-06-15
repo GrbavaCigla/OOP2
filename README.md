@@ -1,8 +1,6 @@
 # OOP2
 
 ## TODO
-- Fix repainting logic
-- Convert everything to Swing
 - Make ModelPanel update single item not call redraw of everything
 - Refactor table model logic
 
