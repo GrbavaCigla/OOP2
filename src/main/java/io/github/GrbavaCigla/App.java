@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.ModelList;
-import io.github.GrbavaCigla.gui.MainWindow;
+import io.github.GrbavaCigla.ui.MainWindow;
 import io.github.GrbavaCigla.models.Airport;
 
 public class App {

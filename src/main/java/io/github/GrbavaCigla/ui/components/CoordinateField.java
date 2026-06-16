@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui.components;
+package io.github.GrbavaCigla.ui.components;
 
 import javax.swing.JFormattedTextField;
 import java.text.NumberFormat;

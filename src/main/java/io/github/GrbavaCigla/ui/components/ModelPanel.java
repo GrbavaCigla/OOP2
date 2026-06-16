@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui.components;
+package io.github.GrbavaCigla.ui.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
@@ -77,6 +77,7 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
         this.model = model;
 
         setLayout(new BorderLayout(5, 5));
+        setBackground(Color.LIGHT_GRAY);
 
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
@@ -91,7 +92,6 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
         model.addObservers(itemObserver, listObserver);
         updateListView(model.getModels());
 
-        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
 
@@ -122,6 +122,7 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
 
     private void addActions() {
         JPanel actionsPanel = new JPanel(new FlowLayout());
+        actionsPanel.setBackground(getBackground());
 
         JButton addButton = new JButton("Add");
         addButton.addActionListener(e -> addModel(e));

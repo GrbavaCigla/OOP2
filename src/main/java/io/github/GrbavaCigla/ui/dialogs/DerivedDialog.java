@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui.dialogs;
+package io.github.GrbavaCigla.ui.dialogs;
 
 import java.awt.Component;
 import java.awt.Frame;

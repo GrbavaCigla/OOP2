@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui.dialogs;
+package io.github.GrbavaCigla.ui.dialogs;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import io.github.GrbavaCigla.core.Context;
-import io.github.GrbavaCigla.gui.components.CodeField;
-import io.github.GrbavaCigla.gui.components.CoordinateField;
+import io.github.GrbavaCigla.ui.components.CodeField;
+import io.github.GrbavaCigla.ui.components.CoordinateField;
 import io.github.GrbavaCigla.models.Airport;
 
 public class AirportDialog extends DerivedDialog {

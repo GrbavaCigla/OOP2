@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui;
+package io.github.GrbavaCigla.ui;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -10,10 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import io.github.GrbavaCigla.core.Context;
-import io.github.GrbavaCigla.gui.components.MapCanvas;
-import io.github.GrbavaCigla.gui.components.ModelPanel;
-import io.github.GrbavaCigla.gui.components.SimulationControls;
-import io.github.GrbavaCigla.gui.dialogs.AirportDialog;
+import io.github.GrbavaCigla.ui.components.MapCanvas;
+import io.github.GrbavaCigla.ui.components.ModelPanel;
+import io.github.GrbavaCigla.ui.components.SimulationControls;
+import io.github.GrbavaCigla.ui.dialogs.AirportDialog;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 

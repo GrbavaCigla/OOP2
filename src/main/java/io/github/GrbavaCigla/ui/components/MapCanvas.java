@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.gui.components;
+package io.github.GrbavaCigla.ui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
