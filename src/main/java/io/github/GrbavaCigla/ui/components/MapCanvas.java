@@ -17,13 +17,17 @@ import javax.swing.Timer;
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.interfaces.Observer;
 import io.github.GrbavaCigla.models.Airport;
+import io.github.GrbavaCigla.simulation.FlightScheduler;
+import io.github.GrbavaCigla.simulation.ScheduledFlight;
 
 public class MapCanvas extends JPanel implements MouseListener, MouseMotionListener {
-    List<Airport> airports;
+    private List<Airport> airports;
+    private List<ScheduledFlight> flights;
     private Airport selectedAirport = null;
     private boolean selectedIsColored = false;
     private JLabel mousePositionLabel;
-    Timer timer;
+    private FlightScheduler scheduler; 
+    private Timer timer;
 
     private int markerSize;
     private float xLimit;
@@ -40,7 +44,11 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         Context ctx = Context.getInstance();
         ctx.getAirportModelList().addObservers(itemObserver, listObserver);
 
+        scheduler = FlightScheduler.getInstance();
+        scheduler.addObserver(simObserver);
+
         airports = getVisibleAirports();
+        flights = scheduler.getActiveFlights();
 
         String markerSizeString = ctx.getProperty("airport.marker.size");
         markerSize = Integer.parseInt(markerSizeString);
@@ -75,6 +83,49 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         for (Airport a : airports) {
             drawAirport(g, a, markerSize);
         }
+
+        for (ScheduledFlight sf : flights) {
+            Airport origin = sf.getFlight().getOrigin();
+            Airport destination = sf.getFlight().getDestination();
+
+            int x1 = getPixelX(origin.getX());
+            int y1 = getPixelY(origin.getY());
+
+            int x2 = getPixelX(destination.getX());
+            int y2 = getPixelY(destination.getY());
+
+            float[] pos = sf.getPosition(scheduler.getTime());
+
+            int px = getPixelX(pos[0]);
+            int py = getPixelY(pos[1]);
+
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+
+            double len = Math.sqrt(dx * dx + dy * dy);
+
+            if (len == 0)
+                continue;
+
+            dx /= len;
+            dy /= len;
+
+            int arrowLength = 10;
+            int arrowWidth = 5;
+
+            int leftX = (int) (px - dx * arrowLength - dy * arrowWidth);
+            int leftY = (int) (py - dy * arrowLength + dx * arrowWidth);
+
+            int rightX = (int) (px - dx * arrowLength + dy * arrowWidth);
+            int rightY = (int) (py - dy * arrowLength - dx * arrowWidth);
+
+            g.setColor(Color.BLUE);
+
+            g.fillPolygon(
+                    new int[] { px, leftX, rightX },
+                    new int[] { py, leftY, rightY },
+                    3);
+        }
     }
 
     public final Observer<Airport> itemObserver = (observable, model) -> {
@@ -84,6 +135,11 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
 
     public final Observer<List<Airport>> listObserver = (observable, modelList) -> {
         airports = getVisibleAirports();
+        repaint();
+    };
+
+    public final Observer<FlightScheduler> simObserver = (observable, scheduler) -> {
+        flights = scheduler.getActiveFlights();
         repaint();
     };
 

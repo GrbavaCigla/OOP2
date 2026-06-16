@@ -56,7 +56,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
         return Collections.unmodifiableList(schedule);
     }
 
-    private synchronized List<ScheduledFlight> getActiveFlights() {
+    public synchronized List<ScheduledFlight> getActiveFlights() {
         return schedule.stream()
                 .filter(sf -> sf.isActive(time))
                 .toList();
