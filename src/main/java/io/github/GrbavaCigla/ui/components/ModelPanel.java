@@ -77,7 +77,6 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
         this.model = model;
 
         setLayout(new BorderLayout(5, 5));
-        setBackground(Color.LIGHT_GRAY);
 
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);

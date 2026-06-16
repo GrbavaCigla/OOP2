@@ -18,11 +18,6 @@ import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
 public class MainWindow extends JFrame {
-    private MapCanvas map;
-    private ModelPanel<Airport> airportsPanel;
-    private ModelPanel<Flight> flightsPanel;
-    private SimulationControls simulationPanel;
-
     public MainWindow() {
         Context ctx = Context.getInstance();
         String title = ctx.getProperty("project.name");
@@ -36,12 +31,16 @@ public class MainWindow extends JFrame {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        map = new MapCanvas();
-        airportsPanel = new ModelPanel<>("Airport", ctx.getAirportModelList(),
+        MapCanvas map = new MapCanvas();
+        SimulationControls simulationPanel = new SimulationControls();
+        ModelPanel<Airport> airportsPanel = new ModelPanel<>(
+                "Airport",
+                ctx.getAirportModelList(),
                 (e) -> new AirportDialog(this, e));
-        flightsPanel = new ModelPanel<>("Flights", ctx.getFlightModelList(),
+        ModelPanel<Flight> flightsPanel = new ModelPanel<>(
+                "Flights",
+                ctx.getFlightModelList(),
                 (e) -> new AirportDialog(this, null));
-        simulationPanel = new SimulationControls();
 
         mainPanel.add(map, BorderLayout.CENTER);
         mainPanel.add(simulationPanel, BorderLayout.NORTH);

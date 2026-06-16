@@ -14,17 +14,15 @@ public class SimulationControls extends JPanel {
     public SimulationControls() {
         super(new BorderLayout());
 
-        setBackground(Color.lightGray);
-
         JPanel actionsPanel = new JPanel(new FlowLayout());
 
         actionsPanel.add(new JButton("Start"));
         actionsPanel.add(new JButton("Stop/Resume"));
         actionsPanel.add(new JButton("Reset"));
 
-        timerLabel = new JLabel("");
+        timerLabel = new JLabel("dawd");
 
         add(actionsPanel, BorderLayout.CENTER);
-        add(timerLabel);
+        add(timerLabel, BorderLayout.EAST);
     }
 }
