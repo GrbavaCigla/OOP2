@@ -2,6 +2,7 @@ package io.github.GrbavaCigla.simulation;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -24,54 +25,48 @@ public class FlightScheduler extends Observable<FlightScheduler> {
         reset();
     }
 
-    public static FlightScheduler getInstance() {
+    public static synchronized FlightScheduler getInstance() {
         if (instance == null) {
             instance = new FlightScheduler();
         }
         return instance;
     }
 
-    public boolean isRunning() {
+    public synchronized boolean isRunning() {
         return !LocalTime.MIDNIGHT.equals(time);
     }
 
-    public void setTime(LocalTime time) {
-        boolean old = isRunning();
-        this.time = time;
-        if (isRunning() == old) notifyObservers(this);
-    }
-
-    public LocalTime getTime() {
+    public synchronized LocalTime getTime() {
         return time;
     }
 
-    public List<ScheduledFlight> step() {
+    public synchronized List<ScheduledFlight> step() {
         time = time.plusMinutes(step);
-        List<ScheduledFlight> active = getActiveFlights();
-        return active;
+        notifyObservers(this);
+        return getActiveFlights();
     }
 
-    public void reset() {
+    public synchronized void reset() {
         time = LocalTime.MIDNIGHT;
         precalculateSchedules();
         notifyObservers(this);
     }
 
     public List<ScheduledFlight> getSchedule() {
-        return schedule;
+        return Collections.unmodifiableList(schedule);
     }
 
-    public List<ScheduledFlight> getActiveFlights() {
+    private synchronized List<ScheduledFlight> getActiveFlights() {
         return schedule.stream()
                 .filter(sf -> sf.isActive(time))
                 .toList();
     }
 
     private LocalTime roundUpToStep(LocalTime time) {
-        int reminder = time.getMinute() % step;
-        if (reminder == 0)
+        int remainder = time.getMinute() % step;
+        if (remainder == 0)
             return time;
-        return time.plusMinutes(step - reminder);
+        return time.plusMinutes(step - remainder);
     }
 
     private void precalculateSchedules() {
