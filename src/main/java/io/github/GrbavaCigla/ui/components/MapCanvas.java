@@ -88,15 +88,11 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     };
 
     private int getPixelX(float x) {
-        String limitString = Context.getInstance().getProperty("airport.x.limit");
-        float limit = Integer.parseInt(limitString);
-        return Math.round((limit + x) / 2 / (float) limit * getSize().width);
+        return Math.round((xLimit + x) / 2 / (float) xLimit * getSize().width);
     }
 
     private int getPixelY(float y) {
-        String limitString = Context.getInstance().getProperty("airport.y.limit");
-        float limit = Integer.parseInt(limitString);
-        return Math.round((limit + y) / 2 / (float) limit * getSize().height);
+        return Math.round((yLimit - y) / (2.0f * yLimit) * getHeight());
     }
 
     private float getCoordinateX(int x) {
@@ -104,7 +100,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     }
 
     private float getCoordinateY(int y) {
-        return ((y * 2.0f * yLimit) / getSize().height) - yLimit;
+        return yLimit - ((y * 2.0f * yLimit) / getHeight());
     }
 
     private void drawAirport(Graphics g, Airport airport, int markerSize) {
