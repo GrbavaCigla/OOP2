@@ -46,7 +46,7 @@ public class SimulationControls extends JPanel {
                     scheduler.step();
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;

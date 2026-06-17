@@ -17,11 +17,12 @@ public class FlightScheduler extends Observable<FlightScheduler> {
     private static FlightScheduler instance;
     private LocalTime time;
     private List<ScheduledFlight> schedule = new ArrayList<>();
-
     private int step;
+    private int microStep;
 
     private FlightScheduler() {
-        step = Integer.parseInt(Context.getInstance().getProperty("simulation.stepMinutes"));
+        step = Integer.parseInt(Context.getInstance().getProperty("simulation.simStepMin"));
+        microStep = Integer.parseInt(Context.getInstance().getProperty("simulation.simMicroStepmin"));
         reset();
     }
 
@@ -41,7 +42,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
     }
 
     public synchronized List<ScheduledFlight> step() {
-        time = time.plusMinutes(step);
+        time = time.plusMinutes(microStep);
         notifyObservers(this);
         return getActiveFlights();
     }
