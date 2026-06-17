@@ -73,50 +73,11 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
         for (Airport a : airports) {
-            drawAirport(g, a, Constants.AIRPORT_MARKER_SIZE);
+            drawAirport(g, a);
         }
 
         for (ScheduledFlight sf : flights) {
-            Airport origin = sf.getFlight().getOrigin();
-            Airport destination = sf.getFlight().getDestination();
-
-            int x1 = getPixelX(origin.getX());
-            int y1 = getPixelY(origin.getY());
-
-            int x2 = getPixelX(destination.getX());
-            int y2 = getPixelY(destination.getY());
-
-            float[] pos = sf.getPosition(scheduler.getTime());
-
-            int px = getPixelX(pos[0]);
-            int py = getPixelY(pos[1]);
-
-            double dx = x2 - x1;
-            double dy = y2 - y1;
-
-            double len = Math.sqrt(dx * dx + dy * dy);
-
-            if (len == 0)
-                continue;
-
-            dx /= len;
-            dy /= len;
-
-            int arrowLength = 10;
-            int arrowWidth = 5;
-
-            int leftX = (int) (px - dx * arrowLength - dy * arrowWidth);
-            int leftY = (int) (py - dy * arrowLength + dx * arrowWidth);
-
-            int rightX = (int) (px - dx * arrowLength + dy * arrowWidth);
-            int rightY = (int) (py - dy * arrowLength - dx * arrowWidth);
-
-            g.setColor(Color.BLUE);
-
-            g.fillPolygon(
-                    new int[] { px, leftX, rightX },
-                    new int[] { py, leftY, rightY },
-                    3);
+            drawFlight(g, sf);
         }
     }
 
@@ -151,16 +112,63 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         return Constants.AIRPORT_Y_LIMIT - ((y * 2.0f * Constants.AIRPORT_Y_LIMIT) / getHeight());
     }
 
-    private void drawAirport(Graphics g, Airport airport, int markerSize) {
+    private void drawAirport(Graphics g, Airport airport) {
         int x = getPixelX(airport.getX());
         int y = getPixelY(airport.getY());
 
         g.setColor(airport == selectedAirport && selectedIsColored ? Color.RED : Color.LIGHT_GRAY);
-        g.fillRect(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
+        g.fillRect(
+                x - Constants.AIRPORT_MARKER_SIZE / 2,
+                y - Constants.AIRPORT_MARKER_SIZE / 2,
+                Constants.AIRPORT_MARKER_SIZE,
+                Constants.AIRPORT_MARKER_SIZE);
 
         g.setColor(Color.black);
         g.setFont(new Font(g.getFont().getFontName(), 400, 10));
-        g.drawString(airport.getCode(), x + markerSize / 2 + 2, y);
+        g.drawString(airport.getCode(), x + Constants.AIRPORT_MARKER_SIZE / 2 + 2, y);
+    }
+
+    private void drawFlight(Graphics g, ScheduledFlight flight) {
+        Airport origin = flight.getFlight().getOrigin();
+        Airport destination = flight.getFlight().getDestination();
+
+        int x1 = getPixelX(origin.getX());
+        int y1 = getPixelY(origin.getY());
+
+        int x2 = getPixelX(destination.getX());
+        int y2 = getPixelY(destination.getY());
+
+        float[] pos = flight.getPosition(scheduler.getTime());
+
+        int px = getPixelX(pos[0]);
+        int py = getPixelY(pos[1]);
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+
+        double len = Math.sqrt(dx * dx + dy * dy);
+
+        if (len == 0)
+            return;
+
+        dx /= len;
+        dy /= len;
+
+        int arrowLength = 10;
+        int arrowWidth = 5;
+
+        int leftX = (int) (px - dx * arrowLength - dy * arrowWidth);
+        int leftY = (int) (py - dy * arrowLength + dx * arrowWidth);
+
+        int rightX = (int) (px - dx * arrowLength + dy * arrowWidth);
+        int rightY = (int) (py - dy * arrowLength - dx * arrowWidth);
+
+        g.setColor(Color.BLUE);
+
+        g.fillPolygon(
+                new int[] { px, leftX, rightX },
+                new int[] { py, leftY, rightY },
+                3);
     }
 
     public void mouseClicked(MouseEvent e) {
