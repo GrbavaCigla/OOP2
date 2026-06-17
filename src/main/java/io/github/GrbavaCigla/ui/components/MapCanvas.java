@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.interfaces.Observer;
 import io.github.GrbavaCigla.models.Airport;
@@ -26,12 +27,8 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     private Airport selectedAirport = null;
     private boolean selectedIsColored = false;
     private JLabel mousePositionLabel;
-    private FlightScheduler scheduler; 
+    private FlightScheduler scheduler;
     private Timer timer;
-
-    private int markerSize;
-    private float xLimit;
-    private float yLimit;
 
     public MapCanvas() {
         setBackground(Color.white);
@@ -50,20 +47,15 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         airports = getVisibleAirports();
         flights = scheduler.getActiveFlights();
 
-        String markerSizeString = ctx.getProperty("airport.marker.size");
-        markerSize = Integer.parseInt(markerSizeString);
-
-        String xLimitString = ctx.getProperty("airport.x.limit");
-        xLimit = Float.parseFloat(xLimitString);
-
-        String yLimitString = ctx.getProperty("airport.y.limit");
-        yLimit = Float.parseFloat(yLimitString);
-
         timer = new Timer(200, e -> {
             int x = getPixelX(selectedAirport.getX());
             int y = getPixelY(selectedAirport.getY());
 
-            paintImmediately(x - markerSize / 2, y - markerSize / 2, markerSize, markerSize);
+            paintImmediately(
+                    x - Constants.AIRPORT_MARKER_SIZE / 2,
+                    y - Constants.AIRPORT_MARKER_SIZE / 2,
+                    Constants.AIRPORT_MARKER_SIZE,
+                    Constants.AIRPORT_MARKER_SIZE);
             Toolkit.getDefaultToolkit().sync();
             selectedIsColored = !selectedIsColored;
         });
@@ -81,7 +73,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
         for (Airport a : airports) {
-            drawAirport(g, a, markerSize);
+            drawAirport(g, a, Constants.AIRPORT_MARKER_SIZE);
         }
 
         for (ScheduledFlight sf : flights) {
@@ -144,19 +136,19 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
     };
 
     private int getPixelX(float x) {
-        return Math.round((xLimit + x) / 2 / (float) xLimit * getSize().width);
+        return Math.round((Constants.AIRPORT_X_LIMIT + x) / 2 / Constants.AIRPORT_X_LIMIT * getSize().width);
     }
 
     private int getPixelY(float y) {
-        return Math.round((yLimit - y) / (2.0f * yLimit) * getHeight());
+        return Math.round((Constants.AIRPORT_Y_LIMIT - y) / (2.0f * Constants.AIRPORT_Y_LIMIT) * getHeight());
     }
 
     private float getCoordinateX(int x) {
-        return ((x * 2.0f * xLimit) / getSize().width) - xLimit;
+        return ((x * 2.0f * Constants.AIRPORT_X_LIMIT) / getSize().width) - Constants.AIRPORT_X_LIMIT;
     }
 
     private float getCoordinateY(int y) {
-        return yLimit - ((y * 2.0f * yLimit) / getHeight());
+        return Constants.AIRPORT_Y_LIMIT - ((y * 2.0f * Constants.AIRPORT_Y_LIMIT) / getHeight());
     }
 
     private void drawAirport(Graphics g, Airport airport, int markerSize) {
@@ -176,7 +168,8 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
 
-            if (Math.abs(e.getX() - x) < markerSize && Math.abs(e.getY() - y) < markerSize) {
+            if (Math.abs(e.getX() - x) < Constants.AIRPORT_MARKER_SIZE
+                    && Math.abs(e.getY() - y) < Constants.AIRPORT_MARKER_SIZE) {
                 if (selectedAirport == null) {
                     timer.stop();
                     selectedAirport = a;

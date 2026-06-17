@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.models.Airport;
@@ -17,12 +18,8 @@ public class FlightScheduler extends Observable<FlightScheduler> {
     private static FlightScheduler instance;
     private LocalTime time;
     private List<ScheduledFlight> schedule = new ArrayList<>();
-    private int step;
-    private int microStep;
 
     private FlightScheduler() {
-        step = Integer.parseInt(Context.getInstance().getProperty("simulation.simStepMin"));
-        microStep = Integer.parseInt(Context.getInstance().getProperty("simulation.simMicroStepmin"));
         reset();
     }
 
@@ -42,7 +39,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
     }
 
     public synchronized List<ScheduledFlight> step() {
-        time = time.plusMinutes(microStep);
+        time = time.plusMinutes(Constants.SIM_MICROSTEP_MINUTES);
         notifyObservers(this);
         return getActiveFlights();
     }
@@ -64,10 +61,10 @@ public class FlightScheduler extends Observable<FlightScheduler> {
     }
 
     private LocalTime roundUpToStep(LocalTime time) {
-        int remainder = time.getMinute() % step;
+        int remainder = time.getMinute() % Constants.SIM_STEP_MINUTES;
         if (remainder == 0)
             return time;
-        return time.plusMinutes(step - remainder);
+        return time.plusMinutes(Constants.SIM_STEP_MINUTES - remainder);
     }
 
     private void precalculateSchedules() {
@@ -84,7 +81,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
             LocalTime nextAvailable = nextAvailableMap.getOrDefault(origin, LocalTime.MIDNIGHT);
             LocalTime actualDeparture = rounded.isBefore(nextAvailable) ? nextAvailable : rounded;
 
-            nextAvailableMap.put(origin, actualDeparture.plusMinutes(step));
+            nextAvailableMap.put(origin, actualDeparture.plusMinutes(Constants.SIM_STEP_MINUTES));
             schedule.add(new ScheduledFlight(flight, actualDeparture));
         }
     }

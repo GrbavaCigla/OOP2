@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.ui.components.MapCanvas;
 import io.github.GrbavaCigla.ui.components.ModelPanel;
@@ -18,12 +19,11 @@ import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
 public class MainWindow extends JFrame {
-    public MainWindow() {
+    public MainWindow(String title) {
         Context ctx = Context.getInstance();
-        String title = ctx.getProperty("project.name");
         Dimension size = new Dimension(
-                Integer.parseInt(ctx.getProperty("window.width")),
-                Integer.parseInt(ctx.getProperty("window.height")));
+                Constants.WINDOW_WIDTH,
+                Constants.WINDOW_HEIGHT);
 
         setTitle(title);
         setSize(size);
