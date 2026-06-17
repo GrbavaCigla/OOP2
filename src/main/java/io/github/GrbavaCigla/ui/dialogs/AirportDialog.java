@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -27,8 +26,6 @@ public class AirportDialog extends DerivedDialog {
     private CoordinateField xField;
     private CoordinateField yField;
     private Airport airport;
-
-    private int gridYCounter = 0;
 
     public AirportDialog(Component parent, Airport airport) {
         this(findFrame(parent), airport);
@@ -63,7 +60,8 @@ public class AirportDialog extends DerivedDialog {
         submitButton.addActionListener(e -> onSubmit());
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridy = gridYCounter++;
+        constraints.gridy = getGridYCounter() + 1;
+        setGridYCounter(getGridYCounter() + 1);
         constraints.insets = new Insets(10, 0, 0, 0);
         contentPanel.add(submitButton, constraints);
 
@@ -103,6 +101,7 @@ public class AirportDialog extends DerivedDialog {
             } else {
                 Airport newAirport = new Airport(name, code, x, y);
                 Context.getInstance().getAirportModelList().validate(newAirport, airport);
+                airport.update(newAirport);
             }
 
             dispose();
@@ -114,20 +113,6 @@ public class AirportDialog extends DerivedDialog {
                     "Invalid input",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private void addField(JPanel panel, String name, Component field) {
-        GridBagConstraints constraints = new GridBagConstraints();
-        
-        constraints.gridx = 0;
-        constraints.gridy = gridYCounter++;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 1.0;
-
-        panel.add(new JLabel(name), constraints);
-
-        constraints.gridy = gridYCounter++;
-        panel.add(field, constraints);
     }
 
     private void updateFields(Airport airport) {

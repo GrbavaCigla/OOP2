@@ -66,14 +66,17 @@ public class Airport extends Observable<Airport> implements Tabulatable {
         notifyObservers(this);
     }
 
-    public void update(String name, String code, float x, float y) {
-        if (this.name == name && this.code == code && this.x == x && this.y == y)
+    public void update(Airport airport) {
+        if (this.name == airport.name
+                && this.code == airport.code
+                && this.x == airport.x
+                && this.y == airport.y)
             return;
 
-        this.name = name;
-        this.code = code;
-        this.x = x;
-        this.y = y;
+        this.name = airport.name;
+        this.code = airport.code;
+        this.x = airport.x;
+        this.y = airport.y;
 
         notifyObservers(this);
     }

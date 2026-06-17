@@ -15,6 +15,7 @@ import io.github.GrbavaCigla.ui.components.MapCanvas;
 import io.github.GrbavaCigla.ui.components.ModelPanel;
 import io.github.GrbavaCigla.ui.components.SimulationControls;
 import io.github.GrbavaCigla.ui.dialogs.AirportDialog;
+import io.github.GrbavaCigla.ui.dialogs.FlightDialog;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 
@@ -40,7 +41,7 @@ public class MainWindow extends JFrame {
         ModelPanel<Flight> flightsPanel = new ModelPanel<>(
                 "Flights",
                 ctx.getFlightModelList(),
-                (e) -> new AirportDialog(this, null));
+                (e) -> new FlightDialog(this, e));
 
         mainPanel.add(map, BorderLayout.CENTER);
         mainPanel.add(simulationPanel, BorderLayout.NORTH);

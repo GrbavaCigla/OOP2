@@ -77,4 +77,19 @@ public class Flight extends Observable<Flight> implements Tabulatable {
         this.duration = duration;
         notifyObservers(this);
     }
+
+    public void update(Flight flight) {
+        if (this.destination == flight.destination
+                && this.origin == flight.origin
+                && this.start == flight.start
+                && this.duration == flight.duration)
+            return;
+
+        this.origin = flight.origin;
+        this.destination = flight.destination;
+        this.duration = flight.duration;
+        this.start = flight.start;
+
+        notifyObservers(this);
+    }
 }
