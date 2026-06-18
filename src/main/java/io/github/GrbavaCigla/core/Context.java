@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import io.github.GrbavaCigla.io.CSV;
@@ -21,6 +24,7 @@ public class Context {
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
     private InactivityTimer inactivityTimer = new InactivityTimer();
+    private final Set<Consumer<Boolean>> simulationObservers = new HashSet<>();
 
     private Context() {
         airportModelList = new ModelList<>();
@@ -179,5 +183,13 @@ public class Context {
 
     public InactivityTimer getInactivityTimer() {
         return inactivityTimer;
+    }
+
+    public void addSimulationObserver(Consumer<Boolean> observer) {
+        simulationObservers.add(observer);
+    }
+
+    public void setSimulationRunning(boolean running) {
+        simulationObservers.forEach(obs -> obs.accept(running));
     }
 }

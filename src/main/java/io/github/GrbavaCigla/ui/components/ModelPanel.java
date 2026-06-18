@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.io.Format;
@@ -27,6 +28,7 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
     private final JTable table;
     private final ModelList<T> model;
     private final Function<T, JDialog> dialogFactory;
+    private JButton addButton, editButton, deleteButton, clearButton;
 
     public ModelPanel(String title, ModelList<T> model, DefaultTableModel tableModel,
             Function<T, JDialog> dialogFactory) {
@@ -42,7 +44,15 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         add(sp);
 
         addActions();
+        Context.getInstance().addSimulationObserver(running -> setCrudEnabled(!running));
         setVisible(true);
+    }
+
+    private void setCrudEnabled(boolean enabled) {
+        addButton.setEnabled(enabled);
+        editButton.setEnabled(enabled);
+        deleteButton.setEnabled(enabled);
+        clearButton.setEnabled(enabled);
     }
 
     private void addModel() {
@@ -97,16 +107,16 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         JPanel actionsPanel = new JPanel(new GridLayout(4, 2));
         actionsPanel.setBackground(getBackground());
 
-        JButton addButton = new JButton("Add");
+        addButton = new JButton("Add");
         addButton.addActionListener(e -> addModel());
 
-        JButton editButton = new JButton("Edit");
+        editButton = new JButton("Edit");
         editButton.addActionListener(e -> editModel());
 
-        JButton deleteButton = new JButton("Delete");
+        deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> deleteModel());
 
-        JButton clearButton = new JButton("Clear");
+        clearButton = new JButton("Clear");
         clearButton.addActionListener(e -> model.clear());
 
         JButton importCSVButton = new JButton("Import as CSV");

@@ -64,17 +64,21 @@ public class SimulationControls extends JPanel {
 
     private void toggleSimulation(ActionEvent event) {
         running = !running;
+        Context ctx = Context.getInstance();
         if (running) {
-            Context.getInstance().getInactivityTimer().suspend();
+            ctx.getInactivityTimer().suspend();
         } else {
-            Context.getInstance().getInactivityTimer().resume();
+            ctx.getInactivityTimer().resume();
         }
+        ctx.setSimulationRunning(running);
     }
 
     private void resetSimulation(ActionEvent event) {
         if (running) {
             running = false;
-            Context.getInstance().getInactivityTimer().resume();
+            Context ctx = Context.getInstance();
+            ctx.getInactivityTimer().resume();
+            ctx.setSimulationRunning(false);
         }
         scheduler.reset();
     }
