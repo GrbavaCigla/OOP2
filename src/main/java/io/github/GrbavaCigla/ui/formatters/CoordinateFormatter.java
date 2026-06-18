@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.formatters;
+package io.github.GrbavaCigla.ui.formatters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

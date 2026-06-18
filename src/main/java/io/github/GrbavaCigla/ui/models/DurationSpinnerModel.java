@@ -1,4 +1,4 @@
-package io.github.GrbavaCigla.formatters;
+package io.github.GrbavaCigla.ui.models;
 
 import java.time.Duration;
 import javax.swing.AbstractSpinnerModel;

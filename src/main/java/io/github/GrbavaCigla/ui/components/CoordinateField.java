@@ -3,7 +3,7 @@ package io.github.GrbavaCigla.ui.components;
 import javax.swing.JFormattedTextField;
 import java.text.NumberFormat;
 
-import io.github.GrbavaCigla.formatters.CoordinateFormatter;
+import io.github.GrbavaCigla.ui.formatters.CoordinateFormatter;
 
 public class CoordinateField extends JFormattedTextField {
 

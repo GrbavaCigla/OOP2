@@ -17,10 +17,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
 import io.github.GrbavaCigla.core.Context;
-import io.github.GrbavaCigla.formatters.LocalTimeSpinnerModel;
-import io.github.GrbavaCigla.formatters.DurationFormatter;
-import io.github.GrbavaCigla.formatters.DurationSpinnerModel;
-import io.github.GrbavaCigla.formatters.LocalTimeFormatter;
+import io.github.GrbavaCigla.ui.models.DurationSpinnerModel;
+import io.github.GrbavaCigla.ui.models.LocalTimeSpinnerModel;
+import io.github.GrbavaCigla.ui.formatters.DurationFormatter;
+import io.github.GrbavaCigla.ui.formatters.LocalTimeFormatter;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 

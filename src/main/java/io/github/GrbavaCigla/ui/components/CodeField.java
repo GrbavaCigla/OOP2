@@ -2,7 +2,7 @@ package io.github.GrbavaCigla.ui.components;
 
 import javax.swing.JFormattedTextField;
 
-import io.github.GrbavaCigla.formatters.CodeFormatter;
+import io.github.GrbavaCigla.ui.formatters.CodeFormatter;
 
 public class CodeField extends JFormattedTextField {
 

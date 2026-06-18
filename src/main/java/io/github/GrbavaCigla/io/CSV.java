@@ -3,32 +3,36 @@ package io.github.GrbavaCigla.io;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import io.github.GrbavaCigla.core.Tabulatable;
+public abstract class CSV<T> implements Importer<T>, Exporter<T> {
 
-public class CSV<T extends Tabulatable> implements Importer<T>, Exporter<T> {
+    protected abstract String[] getColumns();
+
+    protected abstract String[] toRow(T item);
+
+    protected abstract T fromRow(String[] parts);
 
     @Override
     public void dump(BufferedWriter wr, List<T> data) throws IOException {
-        if (data == null || data.isEmpty())
-            return;
-
-        wr.append(String.join(", ", data.get(0).getColumns()));
+        wr.append(String.join(", ", getColumns()));
         for (T item : data) {
             wr.newLine();
-            wr.append(Arrays.stream(item.getRow())
-                    .map(Object::toString)
-                    .reduce((a, b) -> a + ", " + b)
-                    .orElse(""));
+            wr.append(String.join(", ", toRow(item)));
         }
         wr.flush();
-        wr.close();
     }
 
     @Override
-    public List<T> load(BufferedReader rd) {
-        return List.of();
+    public List<T> load(BufferedReader rd) throws IOException {
+        List<T> result = new ArrayList<>();
+        rd.readLine(); // skip header
+        String line;
+        while ((line = rd.readLine()) != null) {
+            if (line.isBlank()) continue;
+            result.add(fromRow(line.split(", ")));
+        }
+        return result;
     }
 }

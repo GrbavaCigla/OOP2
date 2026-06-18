@@ -4,9 +4,8 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.Tabulatable;
 
-public class Flight extends Observable<Flight> implements Tabulatable {
+public class Flight extends Observable<Flight> {
     private Airport origin;
     private Airport destination;
     private LocalTime start;
@@ -17,21 +16,6 @@ public class Flight extends Observable<Flight> implements Tabulatable {
         this.destination = destination;
         this.start = start;
         this.duration = duration;
-    }
-
-    @Override
-    public String toString() {
-        return origin + " -> " + destination + " (" + start.toString() + ")";
-    }
-
-    @Override
-    public Object[] getRow() {
-        return new Object[] { origin.getName(), destination.getName(), start.toString(), getFormattedDuration() };
-    }
-
-    @Override
-    public String[] getColumns() {
-        return new String[] { "Origin", "Destination", "Start", "Duration" };
     }
 
     public Airport getOrigin() {
@@ -71,14 +55,14 @@ public class Flight extends Observable<Flight> implements Tabulatable {
     }
 
     public void setStart(LocalTime start) {
-        if (this.start == start)
+        if (this.start.equals(start))
             return;
         this.start = start;
         notifyObservers(this);
     }
 
     public void setDuration(Duration duration) {
-        if (this.duration == duration)
+        if (this.duration.equals(duration))
             return;
         this.duration = duration;
         notifyObservers(this);
@@ -87,15 +71,18 @@ public class Flight extends Observable<Flight> implements Tabulatable {
     public void update(Flight flight) {
         if (this.destination == flight.destination
                 && this.origin == flight.origin
-                && this.start == flight.start
-                && this.duration == flight.duration)
+                && this.start.equals(flight.start)
+                && this.duration.equals(flight.duration))
             return;
-
         this.origin = flight.origin;
         this.destination = flight.destination;
         this.duration = flight.duration;
         this.start = flight.start;
-
         notifyObservers(this);
+    }
+
+    @Override
+    public String toString() {
+        return origin + " -> " + destination + " (" + start.toString() + ")";
     }
 }

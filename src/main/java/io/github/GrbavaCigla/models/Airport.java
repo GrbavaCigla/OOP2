@@ -1,14 +1,12 @@
 package io.github.GrbavaCigla.models;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.Tabulatable;
 
-public class Airport extends Observable<Airport> implements Tabulatable {
+public class Airport extends Observable<Airport> {
     private String name;
     private String code;
     private float x;
     private float y;
-
     private boolean visible = true;
 
     public Airport(String name, String code, float x, float y) {
@@ -39,14 +37,14 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     }
 
     public void setName(String name) {
-        if (this.name == name)
+        if (this.name.equals(name))
             return;
         this.name = name;
         notifyObservers(this);
     }
 
     public void setCode(String code) {
-        if (this.code == code)
+        if (this.code.equals(code))
             return;
         this.code = code;
         notifyObservers(this);
@@ -66,55 +64,26 @@ public class Airport extends Observable<Airport> implements Tabulatable {
         notifyObservers(this);
     }
 
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        notifyObservers(this);
+    }
+
     public void update(Airport airport) {
-        if (this.name == airport.name
-                && this.code == airport.code
+        if (this.name.equals(airport.name)
+                && this.code.equals(airport.code)
                 && this.x == airport.x
                 && this.y == airport.y)
             return;
-
         this.name = airport.name;
         this.code = airport.code;
         this.x = airport.x;
         this.y = airport.y;
-
-        notifyObservers(this);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
         notifyObservers(this);
     }
 
     @Override
     public String toString() {
         return name + " (" + code + ")";
-    }
-
-    @Override
-    public String[] getColumns() {
-        return new String[] { "Name", "Code", "X", "Y", "Visible" };
-    }
-
-    @Override
-    public Object[] getRow() {
-        return new Object[] { name, code, x, y, visible };
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        return columnIndex == 4 ? Boolean.class : String.class;
-    }
-
-    @Override
-    public boolean isColumnEditable(int column) {
-        return column == 4;
-    }
-
-    @Override
-    public void updateCell(Object value, int columnIndex) {
-        if (columnIndex == 4) {
-            setVisible((boolean) value);
-        }
     }
 }
