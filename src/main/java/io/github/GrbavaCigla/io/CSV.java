@@ -17,6 +17,7 @@ public class CSV<T extends Tabulatable> implements Importer<T>, Exporter<T> {
 
         wr.append(String.join(", ", data.get(0).getColumns()));
         for (T item : data) {
+            wr.newLine();
             wr.append(Arrays.stream(item.getRow())
                     .map(Object::toString)
                     .reduce((a, b) -> a + ", " + b)
@@ -30,5 +31,4 @@ public class CSV<T extends Tabulatable> implements Importer<T>, Exporter<T> {
     public List<T> load(BufferedReader rd) {
         return List.of();
     }
-
 }

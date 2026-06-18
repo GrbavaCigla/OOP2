@@ -3,13 +3,15 @@ package io.github.GrbavaCigla.ui.components;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.core.Tabulatable;
+import io.github.GrbavaCigla.io.CSV;
+import io.github.GrbavaCigla.io.Exporter;
 
 import java.util.List;
 import java.util.function.Function;
@@ -118,22 +120,49 @@ public class ModelPanel<T extends Observable<T> & Tabulatable> extends JPanel {
         model.remove(selectedIndex);
     }
 
+    private void exportModel(Exporter<T> exporter) {
+    }
+
+    private void clearModel(ActionEvent e) {
+        model.clear();
+    }
+
     private void addActions() {
-        JPanel actionsPanel = new JPanel(new FlowLayout());
+        JPanel actionsPanel = new JPanel(new GridLayout(4, 2));
         actionsPanel.setBackground(getBackground());
 
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e -> addModel(e));
+        addButton.addActionListener(this::addModel);
 
         JButton editButton = new JButton("Edit");
-        editButton.addActionListener(e -> editModel(e));
+        editButton.addActionListener(this::editModel);
 
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> deleteModel(e));
+        deleteButton.addActionListener(this::deleteModel);
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(this::clearModel);
+        
+        JButton importCSVButton = new JButton("Import as CSV");
+        // importCSVButton.addActionListener();
+
+        JButton exportCSVButton = new JButton("Export as CSV");
+        exportCSVButton.addActionListener(e -> exportModel(new CSV<>()));
+
+        JButton importJSONButton = new JButton("Import as JSON");
+        // importButton.addActionListener();
+
+        JButton exportJSONButton = new JButton("Export as JSON");
+        // exportButton.addActionListener(e -> exportModel(new CSV<>()));
 
         actionsPanel.add(addButton);
         actionsPanel.add(editButton);
         actionsPanel.add(deleteButton);
+        actionsPanel.add(clearButton);
+        actionsPanel.add(importCSVButton);
+        actionsPanel.add(exportCSVButton);
+        actionsPanel.add(importJSONButton);
+        actionsPanel.add(exportJSONButton);
         add(actionsPanel, BorderLayout.SOUTH);
     }
 
