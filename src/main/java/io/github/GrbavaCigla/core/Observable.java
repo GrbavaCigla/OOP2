@@ -2,8 +2,6 @@ package io.github.GrbavaCigla.core;
 
 import java.util.HashSet;
 
-import io.github.GrbavaCigla.core.interfaces.Observer;
-
 public abstract class Observable<T> {
     private HashSet<Observer<T>> observers = new HashSet<>();
 

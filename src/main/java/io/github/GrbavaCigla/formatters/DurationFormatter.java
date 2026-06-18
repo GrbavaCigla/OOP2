@@ -33,7 +33,7 @@ public class DurationFormatter extends DefaultFormatter {
             Duration duration = (Duration) value;
             long hours = duration.toHours();
             long minutes = duration.toMinutesPart();
-            return String.format("%02d:%02d", hours, minutes);
+            return String.format("%d:%02d", hours, minutes);
         }
         return "";
     }

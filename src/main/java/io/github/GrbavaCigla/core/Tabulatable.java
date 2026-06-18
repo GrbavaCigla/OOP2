@@ -1,9 +1,9 @@
-package io.github.GrbavaCigla.core.interfaces;
+package io.github.GrbavaCigla.core;
 
 public interface Tabulatable {
     public Object[] getRow();
 
-    public Object[] getColumns();
+    public String[] getColumns();
 
     public default Class<?> getColumnClass(int columnIndex) {
         return Object.class;

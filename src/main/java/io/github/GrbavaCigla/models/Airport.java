@@ -1,7 +1,7 @@
 package io.github.GrbavaCigla.models;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.interfaces.Tabulatable;
+import io.github.GrbavaCigla.core.Tabulatable;
 
 public class Airport extends Observable<Airport> implements Tabulatable {
     private String name;
@@ -92,28 +92,28 @@ public class Airport extends Observable<Airport> implements Tabulatable {
     }
 
     @Override
-    public Object[] getColumns() {
-        return new Object[] { "Name", "Code", "Visible" };
+    public String[] getColumns() {
+        return new String[] { "Name", "Code", "X", "Y", "Visible" };
     }
 
     @Override
     public Object[] getRow() {
-        return new Object[] { name, code, visible };
+        return new Object[] { name, code, x, y, visible };
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        return columnIndex == 2 ? Boolean.class : String.class;
+        return columnIndex == 4 ? Boolean.class : String.class;
     }
 
     @Override
     public boolean isColumnEditable(int column) {
-        return column == 2;
+        return column == 4;
     }
 
     @Override
     public void updateCell(Object value, int columnIndex) {
-        if (columnIndex == 2) {
+        if (columnIndex == 4) {
             setVisible((boolean) value);
         }
     }

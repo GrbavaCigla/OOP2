@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import io.github.GrbavaCigla.core.interfaces.Observer;
-
 public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     private List<T> data = new ArrayList<>();
     private List<Function<T, Object>> uniqueConstraintGetters = new ArrayList<>();

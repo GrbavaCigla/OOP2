@@ -16,7 +16,7 @@ import javax.swing.Timer;
 
 import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.Context;
-import io.github.GrbavaCigla.core.interfaces.Observer;
+import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
 import io.github.GrbavaCigla.simulation.ScheduledFlight;

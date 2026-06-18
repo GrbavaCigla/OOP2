@@ -2,15 +2,14 @@ package io.github.GrbavaCigla.ui.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.interfaces.Observer;
-import io.github.GrbavaCigla.core.interfaces.Tabulatable;
+import io.github.GrbavaCigla.core.Observer;
+import io.github.GrbavaCigla.core.Tabulatable;
 
 import java.util.List;
 import java.util.function.Function;

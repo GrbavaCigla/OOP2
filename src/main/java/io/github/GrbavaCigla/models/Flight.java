@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 import io.github.GrbavaCigla.core.Observable;
-import io.github.GrbavaCigla.core.interfaces.Tabulatable;
+import io.github.GrbavaCigla.core.Tabulatable;
 
 public class Flight extends Observable<Flight> implements Tabulatable {
     private Airport origin;
@@ -26,12 +26,12 @@ public class Flight extends Observable<Flight> implements Tabulatable {
 
     @Override
     public Object[] getRow() {
-        return new Object[] { origin.getName(), destination.getName() };
+        return new Object[] { origin.getName(), destination.getName(), start.toString(), getFormattedDuration() };
     }
 
     @Override
-    public Object[] getColumns() {
-        return new Object[] { "Origin", "Destination" };
+    public String[] getColumns() {
+        return new String[] { "Origin", "Destination", "Start", "Duration" };
     }
 
     public Airport getOrigin() {
@@ -48,6 +48,12 @@ public class Flight extends Observable<Flight> implements Tabulatable {
 
     public Duration getDuration() {
         return duration;
+    }
+
+    public String getFormattedDuration() {
+        long hours = duration.toHours();
+        long minutes = duration.toMinutesPart();
+        return String.format("%d:%02d", hours, minutes);
     }
 
     public void setOrigin(Airport origin) {
