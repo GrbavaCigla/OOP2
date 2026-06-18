@@ -15,6 +15,7 @@ import io.github.GrbavaCigla.simulation.FlightScheduler;
 
 public class SimulationControls extends JPanel {
     private JLabel timerLabel;
+    private JButton toggleButton;
     private FlightScheduler scheduler;
     private volatile boolean running = false;
     private Thread simulationThread;
@@ -27,7 +28,7 @@ public class SimulationControls extends JPanel {
 
         JPanel actionsPanel = new JPanel(new FlowLayout());
 
-        JButton toggleButton = new JButton("Start/Stop");
+        toggleButton = new JButton("Start");
         toggleButton.addActionListener(this::toggleSimulation);
 
         JButton resetButton = new JButton("Reset");
@@ -64,6 +65,7 @@ public class SimulationControls extends JPanel {
 
     private void toggleSimulation(ActionEvent event) {
         running = !running;
+        toggleButton.setText(running ? "Stop" : "Start");
         Context ctx = Context.getInstance();
         if (running) {
             scheduler.recalculate();
@@ -77,6 +79,7 @@ public class SimulationControls extends JPanel {
     private void resetSimulation(ActionEvent event) {
         if (running) {
             running = false;
+            toggleButton.setText("Start");
             Context ctx = Context.getInstance();
             ctx.getInactivityTimer().resume();
             ctx.setSimulationRunning(false);
