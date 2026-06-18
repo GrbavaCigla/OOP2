@@ -39,6 +39,8 @@ public class SimulationControls extends JPanel {
 
         timerLabel = new JLabel(LocalTime.MIDNIGHT.toString());
 
+        Context.getInstance().addSimulationObserver(r -> toggleButton.setText(r ? "Stop" : "Start"));
+
         add(actionsPanel, BorderLayout.CENTER);
         add(timerLabel, BorderLayout.EAST);
 
@@ -65,7 +67,6 @@ public class SimulationControls extends JPanel {
 
     private void toggleSimulation(ActionEvent event) {
         running = !running;
-        toggleButton.setText(running ? "Stop" : "Start");
         Context ctx = Context.getInstance();
         if (running) {
             scheduler.recalculate();
@@ -79,7 +80,6 @@ public class SimulationControls extends JPanel {
     private void resetSimulation(ActionEvent event) {
         if (running) {
             running = false;
-            toggleButton.setText("Start");
             Context ctx = Context.getInstance();
             ctx.getInactivityTimer().resume();
             ctx.setSimulationRunning(false);
