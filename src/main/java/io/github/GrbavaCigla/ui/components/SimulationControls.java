@@ -66,6 +66,7 @@ public class SimulationControls extends JPanel {
         running = !running;
         Context ctx = Context.getInstance();
         if (running) {
+            scheduler.recalculate();
             ctx.getInactivityTimer().suspend();
         } else {
             ctx.getInactivityTimer().resume();

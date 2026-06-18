@@ -46,7 +46,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
 
     public synchronized void reset() {
         time = LocalTime.MIDNIGHT;
-        precalculateSchedules();
+        recalculate();
         notifyObservers(this);
     }
 
@@ -60,14 +60,14 @@ public class FlightScheduler extends Observable<FlightScheduler> {
                 .toList();
     }
 
-    private LocalTime roundUpToStep(LocalTime time) {
+    private static LocalTime roundUpToStep(LocalTime time) {
         int remainder = time.getMinute() % Constants.SIM_STEP_MINUTES;
         if (remainder == 0)
             return time;
         return time.plusMinutes(Constants.SIM_STEP_MINUTES - remainder);
     }
 
-    private void precalculateSchedules() {
+    public synchronized void recalculate() {
         schedule.clear();
         Map<Airport, LocalTime> nextAvailableMap = new HashMap<>();
         List<Flight> flights = new ArrayList<>(
