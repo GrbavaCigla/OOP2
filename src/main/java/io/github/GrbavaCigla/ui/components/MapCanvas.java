@@ -183,15 +183,18 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.restart();
+                    Context.getInstance().getInactivityTimer().suspend();
                 } else if (a == selectedAirport) {
                     timer.stop();
                     selectedAirport = null;
                     selectedIsColored = false;
+                    Context.getInstance().getInactivityTimer().resume();
                 } else {
                     timer.stop();
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.start();
+                    Context.getInstance().getInactivityTimer().suspend();
                 }
                 repaint();
                 break;

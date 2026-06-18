@@ -58,8 +58,10 @@ public class MainWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         Toolkit.getDefaultToolkit().addAWTEventListener((AWTEvent e) -> {
-            // TODO: Reset timer
-        }, (1L << 20) - 1);
+            ctx.getInactivityTimer().reset();
+        }, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+
+        ctx.getInactivityTimer().start();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

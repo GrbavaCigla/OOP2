@@ -15,4 +15,6 @@ public class Constants {
     public static final Duration FLIGHT_MIN_DURATION = Duration.ofMinutes(1);
     public static final Duration FLIGHT_STEP_DURATION = Duration.ofMinutes(30);
     public static final Duration FLIGHT_STEP_TIME = Duration.ofHours(1);
+    public static final int INACTIVITY_DELAY_MS = 55_000;
+    public static final int INACTIVITY_CLOSE_DELAY_MS = 5_000;
 }

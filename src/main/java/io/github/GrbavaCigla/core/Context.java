@@ -20,6 +20,7 @@ public class Context {
 
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
+    private InactivityTimer inactivityTimer = new InactivityTimer();
 
     private Context() {
         airportModelList = new ModelList<>();
@@ -174,5 +175,9 @@ public class Context {
 
     public ModelList<Flight> getFlightModelList() {
         return flightModelList;
+    }
+
+    public InactivityTimer getInactivityTimer() {
+        return inactivityTimer;
     }
 }

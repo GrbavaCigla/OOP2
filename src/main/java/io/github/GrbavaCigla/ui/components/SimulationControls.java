@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
 
 public class SimulationControls extends JPanel {
@@ -63,11 +64,17 @@ public class SimulationControls extends JPanel {
 
     private void toggleSimulation(ActionEvent event) {
         running = !running;
+        if (running) {
+            Context.getInstance().getInactivityTimer().suspend();
+        } else {
+            Context.getInstance().getInactivityTimer().resume();
+        }
     }
 
     private void resetSimulation(ActionEvent event) {
         if (running) {
             running = false;
+            Context.getInstance().getInactivityTimer().resume();
         }
         scheduler.reset();
     }

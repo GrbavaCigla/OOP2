@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.ui.models.DurationSpinnerModel;
