@@ -1,9 +1,9 @@
-# OOP2
+# Planumator
 
-## TODO
+Project for the OOP2 subject at ETF.
 
-### A
+## Run
 
-### B
-
-### C
+```
+mvn compile exec:java -Dexec.mainClass=io.github.GrbavaCigla.App
+```
