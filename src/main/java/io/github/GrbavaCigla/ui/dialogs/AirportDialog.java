@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -66,13 +64,6 @@ public class AirportDialog extends DerivedDialog {
         contentPanel.add(submitButton, constraints);
 
         add(contentPanel);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
 
         if (airport != null) {
             updateFields(airport);

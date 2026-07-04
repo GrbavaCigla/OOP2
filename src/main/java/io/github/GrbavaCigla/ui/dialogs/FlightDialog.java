@@ -79,13 +79,6 @@ public class FlightDialog extends DerivedDialog {
 
         add(contentPanel);
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                dispose();
-            }
-        });
-
         if (flight != null) {
             updateFields(flight);
         }

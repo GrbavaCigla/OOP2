@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public abstract class DerivedDialog extends JDialog {
     private int gridYCounter = 0;
@@ -21,6 +22,7 @@ public abstract class DerivedDialog extends JDialog {
 
     public DerivedDialog(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     protected static Frame findFrame(Component component) {

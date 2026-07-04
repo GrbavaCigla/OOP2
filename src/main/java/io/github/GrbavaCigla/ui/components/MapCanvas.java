@@ -5,9 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -21,7 +20,7 @@ import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
 import io.github.GrbavaCigla.simulation.ScheduledFlight;
 
-public class MapCanvas extends JPanel implements MouseListener, MouseMotionListener {
+public class MapCanvas extends JPanel {
     private List<Airport> airports;
     private List<ScheduledFlight> flights;
     private Airport selectedAirport = null;
@@ -32,8 +31,18 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
 
     public MapCanvas() {
         setBackground(Color.white);
-        addMouseListener(this);
-        addMouseMotionListener(this);
+
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                onMouseClicked(e);
+            }
+
+            public void mouseMoved(MouseEvent e) {
+                onMouseMoved(e);
+            }
+        };
+        addMouseListener(mouseAdapter);
+        addMouseMotionListener(mouseAdapter);
 
         mousePositionLabel = new JLabel("X: 0, Y: 0");
         add(mousePositionLabel, BorderLayout.NORTH);
@@ -171,7 +180,7 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
                 3);
     }
 
-    public void mouseClicked(MouseEvent e) {
+    private void onMouseClicked(MouseEvent e) {
         for (Airport a : airports) {
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
@@ -202,25 +211,10 @@ public class MapCanvas extends JPanel implements MouseListener, MouseMotionListe
         }
     }
 
-    public void mouseMoved(MouseEvent e) {
+    private void onMouseMoved(MouseEvent e) {
         float coordX = getCoordinateX(e.getX());
         float coordY = getCoordinateY(e.getY());
 
         mousePositionLabel.setText(String.format("X: %.2f, Y: %.2f", coordX, coordY));
-    }
-
-    public void mouseDragged(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    public void mousePressed(MouseEvent e) {
     }
 }
