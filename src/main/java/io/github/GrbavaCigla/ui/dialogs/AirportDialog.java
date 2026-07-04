@@ -1,10 +1,8 @@
 package io.github.GrbavaCigla.ui.dialogs;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 
@@ -37,12 +35,7 @@ public class AirportDialog extends DerivedDialog {
         super(owner, airport == null ? "Add airport" : "Edit airport", true);
         this.airport = airport;
 
-        JPanel contentPanel = new JPanel(new GridBagLayout()) {
-            @Override
-            public Insets getInsets() {
-                return new Insets(10, 10, 10, 10);
-            }
-        };
+        JPanel contentPanel = createContentPanel();
 
         nameField = new JFormattedTextField();
         codeField = new CodeField();
@@ -69,9 +62,7 @@ public class AirportDialog extends DerivedDialog {
             updateFields(airport);
         }
 
-        pack();
-        setSize(new Dimension(250, getSize().height));
-        setLocationRelativeTo(getParent());
+        finalizeLayout(250);
     }
 
     private void onSubmit() {

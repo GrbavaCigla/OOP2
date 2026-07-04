@@ -3,7 +3,6 @@ package io.github.GrbavaCigla.ui.dialogs;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.time.Duration;
@@ -42,12 +41,7 @@ public class FlightDialog extends DerivedDialog {
         super(owner, flight == null ? "Add flight" : "Edit flight", true);
         this.flight = flight;
 
-        JPanel contentPanel = new JPanel(new GridBagLayout()) {
-            @Override
-            public Insets getInsets() {
-                return new Insets(10, 10, 10, 10);
-            }
-        };
+        JPanel contentPanel = createContentPanel();
 
         Airport[] airports = Context.getInstance().getAirportModelList().getModels().toArray(new Airport[0]);
 
@@ -83,9 +77,7 @@ public class FlightDialog extends DerivedDialog {
             updateFields(flight);
         }
 
-        pack();
-        setSize(300, getSize().height);
-        setLocationRelativeTo(getParent());
+        finalizeLayout(300);
     }
 
     private void onSubmit() {

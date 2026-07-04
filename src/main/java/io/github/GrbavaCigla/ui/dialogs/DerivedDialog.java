@@ -1,8 +1,11 @@
 package io.github.GrbavaCigla.ui.dialogs;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -23,6 +26,21 @@ public abstract class DerivedDialog extends JDialog {
     public DerivedDialog(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    protected JPanel createContentPanel() {
+        return new JPanel(new GridBagLayout()) {
+            @Override
+            public Insets getInsets() {
+                return new Insets(10, 10, 10, 10);
+            }
+        };
+    }
+
+    protected void finalizeLayout(int width) {
+        pack();
+        setSize(new Dimension(width, getSize().height));
+        setLocationRelativeTo(getParent());
     }
 
     protected static Frame findFrame(Component component) {

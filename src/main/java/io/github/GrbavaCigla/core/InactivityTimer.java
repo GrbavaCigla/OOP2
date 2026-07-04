@@ -1,5 +1,6 @@
 package io.github.GrbavaCigla.core;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
@@ -7,7 +8,7 @@ import javax.swing.SwingUtilities;
 import io.github.GrbavaCigla.ui.dialogs.InactivityWarningDialog;
 
 public class InactivityTimer {
-    private final java.util.Timer scheduler = new java.util.Timer(true);
+    private final Timer scheduler = new Timer(true);
     private TimerTask inactivityTask;
     private TimerTask closeTask;
     private TimerTask tickTask;
