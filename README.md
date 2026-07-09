@@ -16,3 +16,4 @@ mvn compile exec:java -Dexec.mainClass=io.github.GrbavaCigla.App
 - Add File menu
 - Check if the UI is isolated from the logic and models
 - Check what happens when you delete an airport that has a flight referencing it
+- Add constraints to models
