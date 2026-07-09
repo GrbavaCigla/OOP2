@@ -46,7 +46,6 @@ public class FlightScheduler extends Observable<FlightScheduler> {
 
     public synchronized void reset() {
         time = LocalTime.MIDNIGHT;
-        recalculate();
         notifyObservers(this);
     }
 

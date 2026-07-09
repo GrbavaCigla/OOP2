@@ -19,10 +19,10 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.io.Format;
+import io.github.GrbavaCigla.simulation.Simulation;
 
 public class ModelPanel<T extends Observable<T>> extends JPanel {
     private final JTable table;
@@ -44,7 +44,7 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         add(sp);
 
         addActions();
-        Context.getInstance().addSimulationObserver(running -> setCrudEnabled(!running));
+        Simulation.getInstance().addObserver((o, running) -> setCrudEnabled(!running));
         setVisible(true);
     }
 
