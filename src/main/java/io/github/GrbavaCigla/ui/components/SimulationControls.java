@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import io.github.GrbavaCigla.core.Context;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
+import io.github.GrbavaCigla.ui.InactivityTimer;
 
 public class SimulationControls extends JPanel {
     private JLabel timerLabel;
@@ -70,9 +71,9 @@ public class SimulationControls extends JPanel {
         Context ctx = Context.getInstance();
         if (running) {
             scheduler.recalculate();
-            ctx.getInactivityTimer().suspend();
+            InactivityTimer.getInstance().suspend();
         } else {
-            ctx.getInactivityTimer().resume();
+            InactivityTimer.getInstance().resume();
         }
         ctx.setSimulationRunning(running);
     }
@@ -81,7 +82,7 @@ public class SimulationControls extends JPanel {
         if (running) {
             running = false;
             Context ctx = Context.getInstance();
-            ctx.getInactivityTimer().resume();
+            InactivityTimer.getInstance().resume();
             ctx.setSimulationRunning(false);
         }
         scheduler.reset();

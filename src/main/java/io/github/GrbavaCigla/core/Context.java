@@ -14,7 +14,6 @@ public class Context {
 
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
-    private InactivityTimer inactivityTimer = new InactivityTimer();
     private final Set<Consumer<Boolean>> simulationObservers = new HashSet<>();
 
     private Context() {
@@ -35,10 +34,6 @@ public class Context {
 
     public ModelList<Flight> getFlightModelList() {
         return flightModelList;
-    }
-
-    public InactivityTimer getInactivityTimer() {
-        return inactivityTimer;
     }
 
     public void addSimulationObserver(Consumer<Boolean> observer) {

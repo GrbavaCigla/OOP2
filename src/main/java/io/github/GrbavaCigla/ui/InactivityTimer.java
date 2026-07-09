@@ -1,13 +1,16 @@
-package io.github.GrbavaCigla.core;
+package io.github.GrbavaCigla.ui;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
+import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.ui.dialogs.InactivityWarningDialog;
 
 public class InactivityTimer {
+    private static InactivityTimer instance;
+
     private final Timer scheduler = new Timer(true);
     private TimerTask inactivityTask;
     private TimerTask closeTask;
@@ -15,6 +18,16 @@ public class InactivityTimer {
     private InactivityWarningDialog warningDialog;
     private int secondsLeft;
     private volatile boolean suspended = false;
+
+    private InactivityTimer() {
+    }
+
+    public static InactivityTimer getInstance() {
+        if (instance == null) {
+            instance = new InactivityTimer();
+        }
+        return instance;
+    }
 
     public void start() {
         scheduleInactivity();

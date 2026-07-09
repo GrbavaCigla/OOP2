@@ -19,6 +19,7 @@ import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
 import io.github.GrbavaCigla.simulation.ScheduledFlight;
+import io.github.GrbavaCigla.ui.InactivityTimer;
 
 public class MapCanvas extends JPanel {
     private List<Airport> airports;
@@ -192,18 +193,18 @@ public class MapCanvas extends JPanel {
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.restart();
-                    Context.getInstance().getInactivityTimer().suspend();
+                    InactivityTimer.getInstance().suspend();
                 } else if (a == selectedAirport) {
                     timer.stop();
                     selectedAirport = null;
                     selectedIsColored = false;
-                    Context.getInstance().getInactivityTimer().resume();
+                    InactivityTimer.getInstance().resume();
                 } else {
                     timer.stop();
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.start();
-                    Context.getInstance().getInactivityTimer().suspend();
+                    InactivityTimer.getInstance().suspend();
                 }
                 repaint();
                 break;
