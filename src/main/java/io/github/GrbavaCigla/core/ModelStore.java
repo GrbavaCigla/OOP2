@@ -43,13 +43,19 @@ public class ModelStore {
         return getInstance().flightModelList;
     }
 
-    public static void loadCsv(Path path) throws IOException {
+    public static void load(Format format, Path path) throws IOException {
+        if (format != Format.CSV) {
+            throw new UnsupportedOperationException("Bulk import not supported for " + format);
+        }
         Map<String, List<String>> sections = splitSections(path);
         loadSection(getAirportModelList(), sections.get("AIRPORTS"));
         loadSection(getFlightModelList(), sections.get("FLIGHTS"));
     }
 
-    public static void dumpCsv(Path path) throws IOException {
+    public static void dump(Format format, Path path) throws IOException {
+        if (format != Format.CSV) {
+            throw new UnsupportedOperationException("Bulk export not supported for " + format);
+        }
         try (BufferedWriter bw = Files.newBufferedWriter(path)) {
             bw.write("# AIRPORTS");
             bw.newLine();

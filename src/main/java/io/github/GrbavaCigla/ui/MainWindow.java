@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.ModelStore;
+import io.github.GrbavaCigla.io.Format;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 import io.github.GrbavaCigla.simulation.Simulation;
@@ -86,17 +87,17 @@ public class MainWindow extends JFrame {
 
         importMenu = new JMenu("Import");
         JMenuItem importCsvItem = new JMenuItem("CSV");
-        importCsvItem.addActionListener(e -> importCsv());
+        importCsvItem.addActionListener(e -> importFile(Format.CSV));
         JMenuItem importJsonItem = new JMenuItem("JSON");
-        importJsonItem.addActionListener(e -> {});
+        importJsonItem.addActionListener(e -> importFile(Format.JSON));
         importMenu.add(importCsvItem);
         importMenu.add(importJsonItem);
 
         JMenu exportMenu = new JMenu("Export");
         JMenuItem exportCsvItem = new JMenuItem("CSV");
-        exportCsvItem.addActionListener(e -> exportCsv());
+        exportCsvItem.addActionListener(e -> exportFile(Format.CSV));
         JMenuItem exportJsonItem = new JMenuItem("JSON");
-        exportJsonItem.addActionListener(e -> {});
+        exportJsonItem.addActionListener(e -> exportFile(Format.JSON));
         exportMenu.add(exportCsvItem);
         exportMenu.add(exportJsonItem);
 
@@ -107,28 +108,28 @@ public class MainWindow extends JFrame {
         return menuBar;
     }
 
-    private void importCsv() {
+    private void importFile(Format format) {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
         }
         Path path = chooser.getSelectedFile().toPath();
         try {
-            ModelStore.loadCsv(path);
-        } catch (IOException ex) {
+            ModelStore.load(format, path);
+        } catch (IOException | UnsupportedOperationException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Import failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void exportCsv() {
+    private void exportFile(Format format) {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
         }
         Path path = chooser.getSelectedFile().toPath();
         try {
-            ModelStore.dumpCsv(path);
-        } catch (IOException ex) {
+            ModelStore.dump(format, path);
+        } catch (IOException | UnsupportedOperationException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Export failed", JOptionPane.ERROR_MESSAGE);
         }
     }
