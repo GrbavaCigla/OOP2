@@ -63,9 +63,13 @@ public class ModelStore {
     }
 
     public static void dump(Format format, Path path) throws IOException {
-        if (format != Format.CSV) {
-            throw new UnsupportedOperationException("Bulk export not supported for " + format);
+        switch (format) {
+            case CSV -> dumpCsv(path);
+            case JSON -> dumpJson(path);
         }
+    }
+
+    private static void dumpCsv(Path path) throws IOException {
         try (BufferedWriter bw = Files.newBufferedWriter(path)) {
             bw.write("# AIRPORTS");
             bw.newLine();
@@ -74,6 +78,21 @@ public class ModelStore {
             bw.write("# FLIGHTS");
             bw.newLine();
             getFlightModelList().dump(Format.CSV, bw);
+        }
+    }
+
+    private static void dumpJson(Path path) throws IOException {
+        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            bw.write("{");
+            bw.newLine();
+            bw.write("\"airports\":");
+            getAirportModelList().dump(Format.JSON, bw);
+            bw.write(",");
+            bw.newLine();
+            bw.write("\"flights\":");
+            getFlightModelList().dump(Format.JSON, bw);
+            bw.newLine();
+            bw.write("}");
         }
     }
 
