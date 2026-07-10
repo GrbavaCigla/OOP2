@@ -88,7 +88,7 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         Path path = chooser.getSelectedFile().toPath();
         try {
             model.load(format, path);
-        } catch (IOException | UnsupportedOperationException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Import failed", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -100,7 +100,7 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         Path path = chooser.getSelectedFile().toPath();
         try {
             model.dump(format, path);
-        } catch (IOException | UnsupportedOperationException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Export failed", JOptionPane.ERROR_MESSAGE);
         }
     }
