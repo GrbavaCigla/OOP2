@@ -14,7 +14,7 @@ mvn compile exec:java -Dexec.mainClass=io.github.GrbavaCigla.App
 - ~~Check if the UI is isolated from the logic and models~~
 - ~~Check what happens when you delete an airport that has a flight referencing it~~
 - ~~Add File menu~~
-- Add `importAll`/`exportAll` somewhere
+- ~~Add `importAll`/`exportAll` somewhere~~
 - Check error dialogs displays
 - Add error dialog for bad loading
 - Add constraints to models
