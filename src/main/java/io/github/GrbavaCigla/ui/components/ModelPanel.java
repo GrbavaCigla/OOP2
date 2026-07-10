@@ -28,7 +28,7 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
     private final JTable table;
     private final ModelList<T> model;
     private final Function<T, JDialog> dialogFactory;
-    private JButton addButton, editButton, deleteButton, clearButton;
+    private JButton addButton, editButton, deleteButton, clearButton, importCSVButton, importJSONButton;
 
     public ModelPanel(String title, ModelList<T> model, DefaultTableModel tableModel,
             Function<T, JDialog> dialogFactory) {
@@ -53,6 +53,8 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         editButton.setEnabled(enabled);
         deleteButton.setEnabled(enabled);
         clearButton.setEnabled(enabled);
+        importCSVButton.setEnabled(enabled);
+        importJSONButton.setEnabled(enabled);
     }
 
     private void addModel() {
@@ -119,13 +121,13 @@ public class ModelPanel<T extends Observable<T>> extends JPanel {
         clearButton = new JButton("Clear");
         clearButton.addActionListener(e -> model.clear());
 
-        JButton importCSVButton = new JButton("Import as CSV");
+        importCSVButton = new JButton("Import as CSV");
         importCSVButton.addActionListener(e -> importModel(Format.CSV));
 
         JButton exportCSVButton = new JButton("Export as CSV");
         exportCSVButton.addActionListener(e -> exportModel(Format.CSV));
 
-        JButton importJSONButton = new JButton("Import as JSON");
+        importJSONButton = new JButton("Import as JSON");
         importJSONButton.addActionListener(e -> importModel(Format.JSON));
 
         JButton exportJSONButton = new JButton("Export as JSON");
