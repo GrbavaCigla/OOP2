@@ -44,12 +44,22 @@ public class ModelStore {
     }
 
     public static void load(Format format, Path path) throws IOException {
-        if (format != Format.CSV) {
-            throw new UnsupportedOperationException("Bulk import not supported for " + format);
+        switch (format) {
+            case CSV -> loadCsv(path);
+            case JSON -> loadJson(path);
         }
+    }
+
+    private static void loadCsv(Path path) throws IOException {
         Map<String, List<String>> sections = splitSections(path);
         loadSection(getAirportModelList(), sections.get("AIRPORTS"));
         loadSection(getFlightModelList(), sections.get("FLIGHTS"));
+    }
+
+    private static void loadJson(Path path) throws IOException {
+        String content = Files.readString(path);
+        loadJsonSection(getAirportModelList(), content, "airports");
+        loadJsonSection(getFlightModelList(), content, "flights");
     }
 
     public static void dump(Format format, Path path) throws IOException {
@@ -88,5 +98,29 @@ public class ModelStore {
         try (BufferedReader br = new BufferedReader(new StringReader(String.join("\n", lines)))) {
             model.load(Format.CSV, br);
         }
+    }
+
+    private static <T extends Observable<T>> void loadJsonSection(ModelList<T> model, String content, String key)
+            throws IOException {
+        String array = extractArray(content, key);
+        if (array == null) {
+            return;
+        }
+        try (BufferedReader br = new BufferedReader(new StringReader(array))) {
+            model.load(Format.JSON, br);
+        }
+    }
+
+    private static String extractArray(String content, String key) {
+        int keyIndex = content.indexOf("\"" + key + "\"");
+        if (keyIndex == -1) {
+            return null;
+        }
+        int start = content.indexOf('[', keyIndex);
+        int end = content.indexOf(']', start);
+        if (start == -1 || end == -1) {
+            return null;
+        }
+        return content.substring(start, end + 1);
     }
 }
