@@ -138,46 +138,14 @@ public class MapCanvas extends JPanel {
     }
 
     private void drawFlight(Graphics g, ScheduledFlight flight) {
-        Airport origin = flight.getFlight().getOrigin();
-        Airport destination = flight.getFlight().getDestination();
-
-        int x1 = getPixelX(origin.getX());
-        int y1 = getPixelY(origin.getY());
-
-        int x2 = getPixelX(destination.getX());
-        int y2 = getPixelY(destination.getY());
-
         float[] pos = flight.getPosition(scheduler.getTime());
 
         int px = getPixelX(pos[0]);
         int py = getPixelY(pos[1]);
 
-        double dx = x2 - x1;
-        double dy = y2 - y1;
-
-        double len = Math.sqrt(dx * dx + dy * dy);
-
-        if (len == 0)
-            return;
-
-        dx /= len;
-        dy /= len;
-
-        int arrowLength = 10;
-        int arrowWidth = 5;
-
-        int leftX = (int) (px - dx * arrowLength - dy * arrowWidth);
-        int leftY = (int) (py - dy * arrowLength + dx * arrowWidth);
-
-        int rightX = (int) (px - dx * arrowLength + dy * arrowWidth);
-        int rightY = (int) (py - dy * arrowLength - dx * arrowWidth);
-
         g.setColor(Color.BLUE);
 
-        g.fillPolygon(
-                new int[] { px, leftX, rightX },
-                new int[] { py, leftY, rightY },
-                3);
+        g.fillOval(px, py, 10, 10);
     }
 
     private void onMouseClicked(MouseEvent e) {
