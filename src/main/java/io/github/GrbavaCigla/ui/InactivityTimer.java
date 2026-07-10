@@ -17,7 +17,7 @@ public class InactivityTimer {
     private TimerTask tickTask;
     private InactivityWarningDialog warningDialog;
     private int secondsLeft;
-    private volatile boolean suspended = false;
+    private int suspended = 0;
 
     private InactivityTimer() {
     }
@@ -37,17 +37,17 @@ public class InactivityTimer {
         if (closeTask != null) { closeTask.cancel(); closeTask = null; }
         if (tickTask != null) { tickTask.cancel(); tickTask = null; }
         if (warningDialog != null) { warningDialog.dispose(); warningDialog = null; }
-        if (!suspended) scheduleInactivity();
+        if (suspended == 0) scheduleInactivity();
     }
 
     public void suspend() {
-        suspended = true;
+        suspended++;
         cancelInactivity();
     }
 
     public void resume() {
-        suspended = false;
-        scheduleInactivity();
+        if (suspended > 0) suspended--;
+        if (suspended == 0) scheduleInactivity();
     }
 
     private synchronized void scheduleInactivity() {

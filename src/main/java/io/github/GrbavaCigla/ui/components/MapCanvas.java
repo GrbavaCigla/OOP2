@@ -203,7 +203,6 @@ public class MapCanvas extends JPanel {
                     selectedAirport = a;
                     selectedIsColored = true;
                     timer.start();
-                    InactivityTimer.getInstance().suspend();
                 }
                 repaint();
                 break;
