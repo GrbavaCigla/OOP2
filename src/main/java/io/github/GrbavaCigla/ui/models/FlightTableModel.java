@@ -29,8 +29,8 @@ public class FlightTableModel extends DefaultTableModel {
         setRowCount(0);
         for (Flight f : flights) {
             addRow(new Object[]{
-                f.getOrigin().getName(),
-                f.getDestination().getName(),
+                f.getOrigin() == null ? "-" : f.getOrigin().getCode(),
+                f.getDestination() == null ? "-" : f.getDestination().getCode(),
                 f.getStart().toString(),
                 f.getFormattedDuration()
             });

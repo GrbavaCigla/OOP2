@@ -40,6 +40,10 @@ public class Flight extends Observable<Flight> {
         return String.format("%d:%02d", hours, minutes);
     }
 
+    public boolean isValid() {
+        return origin != null && destination != null;
+    }
+
     public void setOrigin(Airport origin) {
         if (this.origin == origin)
             return;

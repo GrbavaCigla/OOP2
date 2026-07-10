@@ -19,8 +19,21 @@ public class FlightModelList extends ModelList<Flight> {
 
     public FlightModelList(ModelList<Airport> airportModelList) {
         this.airportModelList = airportModelList;
+        airportModelList.addObserver((obs, airports) -> unlink());
         addFormat(Format.CSV, createCsvFormat());
         addFormat(Format.JSON, createJsonFormat());
+    }
+
+    private void unlink() {
+        List<Airport> airports = airportModelList.getModels();
+        for (Flight flight : getModels()) {
+            if (flight.getOrigin() != null && !airports.contains(flight.getOrigin())) {
+                flight.setOrigin(null);
+            }
+            if (flight.getDestination() != null && !airports.contains(flight.getDestination())) {
+                flight.setDestination(null);
+            }
+        }
     }
 
     private CSV<Flight> createCsvFormat() {
@@ -46,8 +59,8 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected String[] toRow(Flight f) {
                 return new String[] {
-                        f.getOrigin().getCode(),
-                        f.getDestination().getCode(),
+                        f.getOrigin() == null ? "null" : f.getOrigin().getCode(),
+                        f.getDestination() == null ? "null" : f.getDestination().getCode(),
                         f.getStart().toString(),
                         f.getFormattedDuration()
                 };
@@ -56,9 +69,9 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Flight fromRow(String[] p) {
                 Airport origin = airportLookup.get(p[0]);
-                if (origin == null) throw new IllegalArgumentException("Unknown airport code: " + p[0]);
+                if (origin == null && !"null".equals(p[0])) throw new IllegalArgumentException("Unknown airport code: " + p[0]);
                 Airport destination = airportLookup.get(p[1]);
-                if (destination == null) throw new IllegalArgumentException("Unknown airport code: " + p[1]);
+                if (destination == null && !"null".equals(p[1])) throw new IllegalArgumentException("Unknown airport code: " + p[1]);
                 LocalTime start = LocalTime.parse(p[2]);
                 String[] durationParts = p[3].split(":");
                 Duration duration = Duration.ofHours(Long.parseLong(durationParts[0]))
@@ -86,8 +99,8 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Map<String, Object> toObject(Flight f) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("Origin", f.getOrigin().getCode());
-                map.put("Destination", f.getDestination().getCode());
+                map.put("Origin", f.getOrigin() == null ? null : f.getOrigin().getCode());
+                map.put("Destination", f.getDestination() == null ? null : f.getDestination().getCode());
                 map.put("Start", f.getStart().toString());
                 map.put("Duration", f.getFormattedDuration());
                 return map;
@@ -96,9 +109,9 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Flight fromObject(Map<String, String> f) {
                 Airport origin = airportLookup.get(f.get("Origin"));
-                if (origin == null) throw new IllegalArgumentException("Unknown airport code: " + f.get("Origin"));
+                if (origin == null && !"null".equals(f.get("Origin"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("Origin"));
                 Airport destination = airportLookup.get(f.get("Destination"));
-                if (destination == null) throw new IllegalArgumentException("Unknown airport code: " + f.get("Destination"));
+                if (destination == null && !"null".equals(f.get("Destination"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("Destination"));
                 LocalTime start = LocalTime.parse(f.get("Start"));
                 String[] durationParts = f.get("Duration").split(":");
                 Duration duration = Duration.ofHours(Long.parseLong(durationParts[0]))

@@ -28,7 +28,9 @@ public abstract class JSON<T> implements Importer<T>, Exporter<T> {
                 if (j++ > 0) wr.append(", ");
                 wr.append("\"").append(escape(entry.getKey())).append("\": ");
                 Object val = entry.getValue();
-                if (val instanceof Number) {
+                if (val == null) {
+                    wr.append("null");
+                } else if (val instanceof Number) {
                     wr.append(val.toString());
                 } else {
                     wr.append("\"").append(escape(val.toString())).append("\"");
