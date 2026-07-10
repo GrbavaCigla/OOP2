@@ -4,11 +4,15 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.nio.file.Path;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -16,6 +20,7 @@ import io.github.GrbavaCigla.core.Constants;
 import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
+import io.github.GrbavaCigla.simulation.Simulation;
 import io.github.GrbavaCigla.ui.components.MapCanvas;
 import io.github.GrbavaCigla.ui.components.ModelPanel;
 import io.github.GrbavaCigla.ui.components.SimulationControls;
@@ -25,6 +30,8 @@ import io.github.GrbavaCigla.ui.models.AirportTableModel;
 import io.github.GrbavaCigla.ui.models.FlightTableModel;
 
 public class MainWindow extends JFrame {
+    private JMenu importMenu;
+
     public MainWindow(String title) {
         Dimension size = new Dimension(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
@@ -32,6 +39,8 @@ public class MainWindow extends JFrame {
         setSize(size);
         setLayout(new BorderLayout());
         setJMenuBar(createMenuBar());
+
+        Simulation.getInstance().addObserver((o, running) -> importMenu.setEnabled(!running));
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -75,15 +84,39 @@ public class MainWindow extends JFrame {
 
         JMenu fileMenu = new JMenu("File");
 
-        JMenuItem importItem = new JMenuItem("Import");
-        importItem.addActionListener(e -> {});
-        fileMenu.add(importItem);
+        importMenu = new JMenu("Import");
+        JMenuItem importCsvItem = new JMenuItem("CSV");
+        importCsvItem.addActionListener(e -> importCsv());
+        JMenuItem importJsonItem = new JMenuItem("JSON");
+        importJsonItem.addActionListener(e -> {});
+        importMenu.add(importCsvItem);
+        importMenu.add(importJsonItem);
 
-        JMenuItem exportItem = new JMenuItem("Export");
-        exportItem.addActionListener(e -> {});
-        fileMenu.add(exportItem);
+        JMenu exportMenu = new JMenu("Export");
+        JMenuItem exportCsvItem = new JMenuItem("CSV");
+        exportCsvItem.addActionListener(e -> {});
+        JMenuItem exportJsonItem = new JMenuItem("JSON");
+        exportJsonItem.addActionListener(e -> {});
+        exportMenu.add(exportCsvItem);
+        exportMenu.add(exportJsonItem);
+
+        fileMenu.add(importMenu);
+        fileMenu.add(exportMenu);
 
         menuBar.add(fileMenu);
         return menuBar;
+    }
+
+    private void importCsv() {
+        JFileChooser chooser = new JFileChooser();
+        if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        Path path = chooser.getSelectedFile().toPath();
+        try {
+            ModelStore.loadCsv(path);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Import failed", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

@@ -96,17 +96,21 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     }
 
     public void load(Format format, Path path) throws IOException {
+        try (BufferedReader br = Files.newBufferedReader(path)) {
+            load(format, br);
+        }
+    }
+
+    public void load(Format format, BufferedReader br) throws IOException {
         Importer<T> importer = importers.get(format);
         if (importer == null)
             throw new UnsupportedOperationException("Format not registered: " + format);
-        try (BufferedReader br = Files.newBufferedReader(path)) {
-            List<T> loaded = importer.load(br);
-            data.clear();
-            for (T item : loaded) {
-                validate(item);
-                data.add(item);
-            }
-            notifyObservers(getModels());
+        List<T> loaded = importer.load(br);
+        data.clear();
+        for (T item : loaded) {
+            validate(item);
+            data.add(item);
         }
+        notifyObservers(getModels());
     }
 }
