@@ -40,21 +40,25 @@ public class Simulation extends Observable<Boolean> {
     }
 
     public void start() {
-        if (running) return;
+        if (running)
+            return;
         scheduler.recalculate();
         running = true;
         notifyObservers(running);
     }
 
     public void stop() {
-        if (!running) return;
+        if (!running)
+            return;
         running = false;
         notifyObservers(running);
     }
 
     public void toggle() {
-        if (running) stop();
-        else start();
+        if (running)
+            stop();
+        else
+            start();
     }
 
     public void reset() {

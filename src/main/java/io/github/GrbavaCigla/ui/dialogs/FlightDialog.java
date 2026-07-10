@@ -51,11 +51,13 @@ public class FlightDialog extends DerivedDialog {
         durationField = new JSpinner(new DurationSpinnerModel());
 
         JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) startField.getEditor();
-        editor.getTextField().setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new LocalTimeFormatter()));
+        editor.getTextField()
+                .setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new LocalTimeFormatter()));
         editor.getTextField().setEditable(true);
 
         editor = (JSpinner.DefaultEditor) durationField.getEditor();
-        editor.getTextField().setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new DurationFormatter()));
+        editor.getTextField()
+                .setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new DurationFormatter()));
         editor.getTextField().setEditable(true);
 
         addField(contentPanel, "Origin", originField);

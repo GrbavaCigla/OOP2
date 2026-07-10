@@ -12,9 +12,8 @@ public class LocalTimeSpinnerModel extends AbstractSpinnerModel {
 
     public LocalTimeSpinnerModel() {
         this(
-            LocalTime.now(),
-            Constants.FLIGHT_STEP_TIME
-        );
+                LocalTime.now(),
+                Constants.FLIGHT_STEP_TIME);
     }
 
     public LocalTimeSpinnerModel(LocalTime time, Duration stepDuration) {

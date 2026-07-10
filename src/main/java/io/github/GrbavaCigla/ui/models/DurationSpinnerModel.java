@@ -11,10 +11,9 @@ public class DurationSpinnerModel extends AbstractSpinnerModel {
 
     public DurationSpinnerModel() {
         this(
-            Constants.FLIGHT_DEFAULT_DURATION,
-            Constants.FLIGHT_MIN_DURATION,
-            Constants.FLIGHT_STEP_DURATION
-        );
+                Constants.FLIGHT_DEFAULT_DURATION,
+                Constants.FLIGHT_MIN_DURATION,
+                Constants.FLIGHT_STEP_DURATION);
     }
 
     public DurationSpinnerModel(Duration duration, Duration minDuration, Duration stepDuration) {

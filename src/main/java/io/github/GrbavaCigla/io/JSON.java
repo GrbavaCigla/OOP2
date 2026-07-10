@@ -25,7 +25,8 @@ public abstract class JSON<T> implements Importer<T>, Exporter<T> {
             Map<String, Object> obj = toObject(data.get(i));
             int j = 0;
             for (Map.Entry<String, Object> entry : obj.entrySet()) {
-                if (j++ > 0) wr.append(", ");
+                if (j++ > 0)
+                    wr.append(", ");
                 wr.append("\"").append(escape(entry.getKey())).append("\": ");
                 Object val = entry.getValue();
                 if (val == null) {
@@ -58,9 +59,11 @@ public abstract class JSON<T> implements Importer<T>, Exporter<T> {
         int pos = 0;
         while (pos < content.length()) {
             int start = content.indexOf('{', pos);
-            if (start == -1) break;
+            if (start == -1)
+                break;
             int end = content.indexOf('}', start);
-            if (end == -1) break;
+            if (end == -1)
+                break;
             result.add(fromObject(parseObject(content.substring(start + 1, end))));
             pos = end + 1;
         }
@@ -70,7 +73,7 @@ public abstract class JSON<T> implements Importer<T>, Exporter<T> {
     private Map<String, String> parseObject(String obj) {
         Map<String, String> map = new HashMap<>();
         Pattern p = Pattern.compile(
-            "\"((?:[^\"\\\\]|\\\\.)+)\"\\s*:\\s*(?:\"((?:[^\"\\\\]|\\\\.)*)\"|([^,}\\s]+))");
+                "\"((?:[^\"\\\\]|\\\\.)+)\"\\s*:\\s*(?:\"((?:[^\"\\\\]|\\\\.)*)\"|([^,}\\s]+))");
         Matcher m = p.matcher(obj);
         while (m.find()) {
             String key = unescape(m.group(1));

@@ -32,7 +32,8 @@ public abstract class CSV<T> implements Importer<T>, Exporter<T> {
         List<String> header = Arrays.stream(rd.readLine().split(",")).map(s -> s.trim()).toList();
         String line;
         while ((line = rd.readLine()) != null) {
-            if (line.isBlank()) continue;
+            if (line.isBlank())
+                continue;
 
             String[] item = new String[columns.size()];
             String[] fields = line.split(",");

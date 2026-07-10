@@ -74,8 +74,9 @@ public class FlightScheduler extends Observable<FlightScheduler> {
 
         flights.sort(Comparator.comparing(Flight::getStart));
 
-        for(Flight flight : flights) {
-            if (!flight.isValid()) continue;
+        for (Flight flight : flights) {
+            if (!flight.isValid())
+                continue;
             Airport origin = flight.getOrigin();
             LocalTime rounded = roundUpToStep(flight.getStart());
             LocalTime nextAvailable = nextAvailableMap.getOrDefault(origin, LocalTime.MIDNIGHT);

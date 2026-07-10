@@ -9,7 +9,7 @@ import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Flight;
 
 public class FlightTableModel extends DefaultTableModel {
-    private static final String[] COLUMNS = {"Origin", "Destination", "Start", "Duration"};
+    private static final String[] COLUMNS = { "Origin", "Destination", "Start", "Duration" };
 
     private Observer<Flight> itemObserver;
     private Observer<List<Flight>> listObserver;
@@ -28,11 +28,11 @@ public class FlightTableModel extends DefaultTableModel {
     private void refresh(List<Flight> flights) {
         setRowCount(0);
         for (Flight f : flights) {
-            addRow(new Object[]{
-                f.getOrigin() == null ? "-" : f.getOrigin().getCode(),
-                f.getDestination() == null ? "-" : f.getDestination().getCode(),
-                f.getStart().toString(),
-                f.getFormattedDuration()
+            addRow(new Object[] {
+                    f.getOrigin() == null ? "-" : f.getOrigin().getCode(),
+                    f.getDestination() == null ? "-" : f.getDestination().getCode(),
+                    f.getStart().toString(),
+                    f.getFormattedDuration()
             });
         }
     }

@@ -52,7 +52,7 @@ public abstract class DerivedDialog extends JDialog {
 
     protected void addField(JPanel panel, String name, Component field) {
         GridBagConstraints constraints = new GridBagConstraints();
-        
+
         constraints.gridx = 0;
         constraints.gridy = gridYCounter++;
         constraints.fill = GridBagConstraints.HORIZONTAL;

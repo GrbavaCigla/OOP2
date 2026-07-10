@@ -9,7 +9,7 @@ import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 
 public class AirportTableModel extends DefaultTableModel {
-    private static final String[] COLUMNS = {"Name", "Code", "X", "Y", "Visible"};
+    private static final String[] COLUMNS = { "Name", "Code", "X", "Y", "Visible" };
 
     private final ModelList<Airport> modelList;
     private Observer<Airport> itemObserver;
@@ -30,7 +30,7 @@ public class AirportTableModel extends DefaultTableModel {
     private void refresh(List<Airport> airports) {
         setRowCount(0);
         for (Airport a : airports) {
-            addRow(new Object[]{a.getName(), a.getCode(), a.getX(), a.getY(), a.getVisible()});
+            addRow(new Object[] { a.getName(), a.getCode(), a.getX(), a.getY(), a.getVisible() });
         }
     }
 

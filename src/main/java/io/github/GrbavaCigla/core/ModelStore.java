@@ -110,7 +110,8 @@ public class ModelStore {
         return sections;
     }
 
-    private static <T extends Observable<T>> void loadSection(ModelList<T> model, List<String> lines) throws IOException {
+    private static <T extends Observable<T>> void loadSection(ModelList<T> model, List<String> lines)
+            throws IOException {
         if (lines == null) {
             return;
         }

@@ -69,9 +69,11 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Flight fromRow(String[] p) {
                 Airport origin = airportLookup.get(p[0]);
-                if (origin == null && !"null".equals(p[0])) throw new IllegalArgumentException("Unknown airport code: " + p[0]);
+                if (origin == null && !"null".equals(p[0]))
+                    throw new IllegalArgumentException("Unknown airport code: " + p[0]);
                 Airport destination = airportLookup.get(p[1]);
-                if (destination == null && !"null".equals(p[1])) throw new IllegalArgumentException("Unknown airport code: " + p[1]);
+                if (destination == null && !"null".equals(p[1]))
+                    throw new IllegalArgumentException("Unknown airport code: " + p[1]);
                 LocalTime start = LocalTime.parse(p[2]);
                 Duration duration = Duration.ofMinutes(Long.parseLong(p[3]));
                 return new Flight(origin, destination, start, duration);
@@ -107,9 +109,11 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Flight fromObject(Map<String, String> f) {
                 Airport origin = airportLookup.get(f.get("from"));
-                if (origin == null && !"null".equals(f.get("from"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("from"));
+                if (origin == null && !"null".equals(f.get("from")))
+                    throw new IllegalArgumentException("Unknown airport code: " + f.get("from"));
                 Airport destination = airportLookup.get(f.get("to"));
-                if (destination == null && !"null".equals(f.get("to"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("to"));
+                if (destination == null && !"null".equals(f.get("to")))
+                    throw new IllegalArgumentException("Unknown airport code: " + f.get("to"));
                 LocalTime start = LocalTime.parse(f.get("departure"));
                 Duration duration = Duration.ofMinutes(Long.parseLong(f.get("duration")));
                 return new Flight(origin, destination, start, duration);

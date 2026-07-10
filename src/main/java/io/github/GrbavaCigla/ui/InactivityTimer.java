@@ -34,10 +34,20 @@ public class InactivityTimer {
     }
 
     public void reset() {
-        if (closeTask != null) { closeTask.cancel(); closeTask = null; }
-        if (tickTask != null) { tickTask.cancel(); tickTask = null; }
-        if (warningDialog != null) { warningDialog.dispose(); warningDialog = null; }
-        if (suspended == 0) scheduleInactivity();
+        if (closeTask != null) {
+            closeTask.cancel();
+            closeTask = null;
+        }
+        if (tickTask != null) {
+            tickTask.cancel();
+            tickTask = null;
+        }
+        if (warningDialog != null) {
+            warningDialog.dispose();
+            warningDialog = null;
+        }
+        if (suspended == 0)
+            scheduleInactivity();
     }
 
     public void suspend() {
@@ -46,8 +56,10 @@ public class InactivityTimer {
     }
 
     public void resume() {
-        if (suspended > 0) suspended--;
-        if (suspended == 0) scheduleInactivity();
+        if (suspended > 0)
+            suspended--;
+        if (suspended == 0)
+            scheduleInactivity();
     }
 
     private synchronized void scheduleInactivity() {
@@ -86,7 +98,8 @@ public class InactivityTimer {
             @Override
             public void run() {
                 SwingUtilities.invokeLater(() -> {
-                    if (warningDialog != null) warningDialog.updateCountdown(--secondsLeft);
+                    if (warningDialog != null)
+                        warningDialog.updateCountdown(--secondsLeft);
                 });
             }
         };
