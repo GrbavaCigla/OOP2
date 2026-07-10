@@ -25,7 +25,6 @@ public class App {
             properties.load(input);
 
             ModelList<Airport> airportModel = ModelStore.getAirportModelList();
-            airportModel.addUniqueConstraint((a) -> a.getCode());
 
             List<Airport> airports = List.of(
                     new Airport("Hartsfield-Jackson Atlanta International Airport", "ATL", -84, 34),
