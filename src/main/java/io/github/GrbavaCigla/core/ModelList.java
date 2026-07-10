@@ -87,12 +87,16 @@ public class ModelList<T extends Observable<T>> extends Observable<List<T>> {
     }
 
     public void dump(Format format, Path path) throws IOException {
+        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            dump(format, bw);
+        }
+    }
+
+    public void dump(Format format, BufferedWriter bw) throws IOException {
         Exporter<T> exporter = exporters.get(format);
         if (exporter == null)
             throw new UnsupportedOperationException("Format not registered: " + format);
-        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
-            exporter.dump(bw, data);
-        }
+        exporter.dump(bw, data);
     }
 
     public void load(Format format, Path path) throws IOException {

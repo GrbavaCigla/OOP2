@@ -1,6 +1,7 @@
 package io.github.GrbavaCigla.core;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -46,6 +47,18 @@ public class ModelStore {
         Map<String, List<String>> sections = splitSections(path);
         loadSection(getAirportModelList(), sections.get("AIRPORTS"));
         loadSection(getFlightModelList(), sections.get("FLIGHTS"));
+    }
+
+    public static void dumpCsv(Path path) throws IOException {
+        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            bw.write("# AIRPORTS");
+            bw.newLine();
+            getAirportModelList().dump(Format.CSV, bw);
+            bw.newLine();
+            bw.write("# FLIGHTS");
+            bw.newLine();
+            getFlightModelList().dump(Format.CSV, bw);
+        }
     }
 
     private static Map<String, List<String>> splitSections(Path path) throws IOException {

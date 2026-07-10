@@ -94,7 +94,7 @@ public class MainWindow extends JFrame {
 
         JMenu exportMenu = new JMenu("Export");
         JMenuItem exportCsvItem = new JMenuItem("CSV");
-        exportCsvItem.addActionListener(e -> {});
+        exportCsvItem.addActionListener(e -> exportCsv());
         JMenuItem exportJsonItem = new JMenuItem("JSON");
         exportJsonItem.addActionListener(e -> {});
         exportMenu.add(exportCsvItem);
@@ -117,6 +117,19 @@ public class MainWindow extends JFrame {
             ModelStore.loadCsv(path);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Import failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void exportCsv() {
+        JFileChooser chooser = new JFileChooser();
+        if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        Path path = chooser.getSelectedFile().toPath();
+        try {
+            ModelStore.dumpCsv(path);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Export failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
