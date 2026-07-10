@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import io.github.GrbavaCigla.core.Constants;
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
 import io.github.GrbavaCigla.ui.components.MapCanvas;
@@ -23,7 +23,6 @@ import io.github.GrbavaCigla.ui.models.FlightTableModel;
 
 public class MainWindow extends JFrame {
     public MainWindow(String title) {
-        Context ctx = Context.getInstance();
         Dimension size = new Dimension(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         setTitle(title);
@@ -35,18 +34,18 @@ public class MainWindow extends JFrame {
         MapCanvas map = new MapCanvas();
         SimulationControls simulationPanel = new SimulationControls();
 
-        AirportTableModel airportTableModel = new AirportTableModel(ctx.getAirportModelList());
-        FlightTableModel flightTableModel = new FlightTableModel(ctx.getFlightModelList());
+        AirportTableModel airportTableModel = new AirportTableModel(ModelStore.getAirportModelList());
+        FlightTableModel flightTableModel = new FlightTableModel(ModelStore.getFlightModelList());
 
         ModelPanel<Airport> airportsPanel = new ModelPanel<>(
                 "Airport",
-                ctx.getAirportModelList(),
+                ModelStore.getAirportModelList(),
                 airportTableModel,
                 (e) -> new AirportDialog(this, e));
 
         ModelPanel<Flight> flightsPanel = new ModelPanel<>(
                 "Flights",
-                ctx.getFlightModelList(),
+                ModelStore.getFlightModelList(),
                 flightTableModel,
                 (e) -> new FlightDialog(this, e));
 

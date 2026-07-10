@@ -5,29 +5,29 @@ import io.github.GrbavaCigla.models.AirportModelList;
 import io.github.GrbavaCigla.models.Flight;
 import io.github.GrbavaCigla.models.FlightModelList;
 
-public class Context {
-    private static Context instance;
+public class ModelStore {
+    private static ModelStore instance;
 
     private ModelList<Airport> airportModelList;
     private ModelList<Flight> flightModelList;
 
-    private Context() {
+    private ModelStore() {
         airportModelList = new AirportModelList();
         flightModelList = new FlightModelList(airportModelList);
     }
 
-    public static Context getInstance() {
+    public static ModelStore getInstance() {
         if (instance == null) {
-            instance = new Context();
+            instance = new ModelStore();
         }
         return instance;
     }
 
-    public ModelList<Airport> getAirportModelList() {
-        return airportModelList;
+    public static ModelList<Airport> getAirportModelList() {
+        return getInstance().airportModelList;
     }
 
-    public ModelList<Flight> getFlightModelList() {
-        return flightModelList;
+    public static ModelList<Flight> getFlightModelList() {
+        return getInstance().flightModelList;
     }
 }

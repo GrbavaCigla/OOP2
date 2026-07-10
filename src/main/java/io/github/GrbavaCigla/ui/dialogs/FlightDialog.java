@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.ui.models.DurationSpinnerModel;
 import io.github.GrbavaCigla.ui.models.LocalTimeSpinnerModel;
 import io.github.GrbavaCigla.ui.formatters.DurationFormatter;
@@ -43,7 +43,7 @@ public class FlightDialog extends DerivedDialog {
 
         JPanel contentPanel = createContentPanel();
 
-        Airport[] airports = Context.getInstance().getAirportModelList().getModels().toArray(new Airport[0]);
+        Airport[] airports = ModelStore.getAirportModelList().getModels().toArray(new Airport[0]);
 
         originField = new JComboBox<>(airports);
         destinationField = new JComboBox<>(airports);
@@ -91,12 +91,11 @@ public class FlightDialog extends DerivedDialog {
             Duration duration = (Duration) durationField.getValue();
 
             if (flight == null) {
-                Context.getInstance()
-                        .getFlightModelList()
+                ModelStore.getFlightModelList()
                         .add(new Flight(origin, destination, start, duration));
             } else {
                 Flight newFlight = new Flight(origin, destination, start, duration);
-                Context.getInstance().getFlightModelList().validate(newFlight, flight);
+                ModelStore.getFlightModelList().validate(newFlight, flight);
                 flight.update(newFlight);
             }
 

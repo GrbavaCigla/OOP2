@@ -11,7 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.ui.components.CodeField;
 import io.github.GrbavaCigla.ui.components.CoordinateField;
 import io.github.GrbavaCigla.models.Airport;
@@ -77,12 +77,11 @@ public class AirportDialog extends DerivedDialog {
             float y = yField.getValueAsFloat();
 
             if (airport == null) {
-                Context.getInstance()
-                        .getAirportModelList()
+                ModelStore.getAirportModelList()
                         .add(new Airport(name, code, x, y));
             } else {
                 Airport newAirport = new Airport(name, code, x, y);
-                Context.getInstance().getAirportModelList().validate(newAirport, airport);
+                ModelStore.getAirportModelList().validate(newAirport, airport);
                 airport.update(newAirport);
             }
 

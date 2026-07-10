@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.GrbavaCigla.core.Constants;
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.core.Observable;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.models.Flight;
@@ -70,7 +70,7 @@ public class FlightScheduler extends Observable<FlightScheduler> {
         schedule.clear();
         Map<Airport, LocalTime> nextAvailableMap = new HashMap<>();
         List<Flight> flights = new ArrayList<>(
-                Context.getInstance().getFlightModelList().getModels());
+                ModelStore.getFlightModelList().getModels());
 
         flights.sort(Comparator.comparing(Flight::getStart));
 

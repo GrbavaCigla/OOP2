@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import io.github.GrbavaCigla.core.Constants;
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.core.Observer;
 import io.github.GrbavaCigla.models.Airport;
 import io.github.GrbavaCigla.simulation.FlightScheduler;
@@ -48,8 +48,7 @@ public class MapCanvas extends JPanel {
         mousePositionLabel = new JLabel("X: 0, Y: 0");
         add(mousePositionLabel, BorderLayout.NORTH);
 
-        Context ctx = Context.getInstance();
-        ctx.getAirportModelList().addObservers(itemObserver, listObserver);
+        ModelStore.getAirportModelList().addObservers(itemObserver, listObserver);
 
         scheduler = FlightScheduler.getInstance();
         scheduler.addObserver(simObserver);
@@ -72,7 +71,7 @@ public class MapCanvas extends JPanel {
     }
 
     private List<Airport> getVisibleAirports() {
-        return Context.getInstance().getAirportModelList().getModels().stream().filter(a -> a.getVisible()).toList();
+        return ModelStore.getAirportModelList().getModels().stream().filter(a -> a.getVisible()).toList();
     }
 
     public void paintComponent(Graphics g) {

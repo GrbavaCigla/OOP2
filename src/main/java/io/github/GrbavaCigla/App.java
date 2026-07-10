@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Properties;
 
-import io.github.GrbavaCigla.core.Context;
+import io.github.GrbavaCigla.core.ModelStore;
 import io.github.GrbavaCigla.core.ModelList;
 import io.github.GrbavaCigla.ui.MainWindow;
 import io.github.GrbavaCigla.models.Airport;
@@ -24,7 +24,7 @@ public class App {
             Properties properties = new Properties();
             properties.load(input);
 
-            ModelList<Airport> airportModel = Context.getInstance().getAirportModelList();
+            ModelList<Airport> airportModel = ModelStore.getAirportModelList();
             airportModel.addUniqueConstraint((a) -> a.getCode());
 
             List<Airport> airports = List.of(
@@ -47,7 +47,7 @@ public class App {
 
             airports.forEach(airportModel::add);
 
-            ModelList<Flight> flightModel = Context.getInstance().getFlightModelList();
+            ModelList<Flight> flightModel = ModelStore.getFlightModelList();
 
             flightModel.add(new Flight(airports.get(3), airports.get(12), LocalTime.of(0, 10), Duration.ofHours(1)));
             flightModel.add(new Flight(airports.get(3), airports.get(15), LocalTime.of(0, 10), Duration.ofHours(2)));
