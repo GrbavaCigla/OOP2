@@ -5,11 +5,11 @@ import io.github.GrbavaCigla.core.Observable;
 public class Airport extends Observable<Airport> {
     private String name;
     private String code;
-    private float x;
-    private float y;
+    private int x;
+    private int y;
     private boolean visible = true;
 
-    public Airport(String name, String code, float x, float y) {
+    public Airport(String name, String code, int x, int y) {
         this.name = name;
         this.code = code;
         this.x = x;
@@ -24,11 +24,11 @@ public class Airport extends Observable<Airport> {
         return code;
     }
 
-    public float getX() {
+    public int getX() {
         return x;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 
@@ -50,14 +50,14 @@ public class Airport extends Observable<Airport> {
         notifyObservers(this);
     }
 
-    public void setX(float x) {
+    public void setX(int x) {
         if (this.x == x)
             return;
         this.x = x;
         notifyObservers(this);
     }
 
-    public void setY(float y) {
+    public void setY(int y) {
         if (this.y == y)
             return;
         this.y = y;

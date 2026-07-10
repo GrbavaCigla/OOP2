@@ -16,10 +16,10 @@ public abstract class CSV<T> implements Importer<T>, Exporter<T> {
 
     @Override
     public void dump(BufferedWriter wr, List<T> data) throws IOException {
-        wr.append(String.join(", ", getColumns()));
+        wr.append(String.join(",", getColumns()));
         for (T item : data) {
             wr.newLine();
-            wr.append(String.join(", ", toRow(item)));
+            wr.append(String.join(",", toRow(item)));
         }
         wr.flush();
     }
@@ -31,7 +31,7 @@ public abstract class CSV<T> implements Importer<T>, Exporter<T> {
         String line;
         while ((line = rd.readLine()) != null) {
             if (line.isBlank()) continue;
-            result.add(fromRow(line.split(", ")));
+            result.add(fromRow(line.split(",")));
         }
         return result;
     }

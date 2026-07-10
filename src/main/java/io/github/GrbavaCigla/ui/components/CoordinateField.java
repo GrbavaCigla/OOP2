@@ -7,23 +7,23 @@ import io.github.GrbavaCigla.ui.formatters.CoordinateFormatter;
 
 public class CoordinateField extends JFormattedTextField {
 
-    public CoordinateField(float limit) {
+    public CoordinateField(int limit) {
         super(createFormatter(limit));
         setFocusLostBehavior(JFormattedTextField.PERSIST);
     }
 
-    private static CoordinateFormatter createFormatter(float limit) {
+    private static CoordinateFormatter createFormatter(int limit) {
         NumberFormat format = NumberFormat.getNumberInstance();
 
         return new CoordinateFormatter(format, limit);
     }
 
-    public float getValueAsFloat() {
+    public int getValueAsInt() {
         Object v = getValue();
-        return (v instanceof Number) ? ((Number) v).floatValue() : 0f;
+        return (v instanceof Number) ? ((Number) v).intValue() : 0;
     }
 
-    public void setValue(float value) {
+    public void setValue(int value) {
         super.setValue(value);
     }
 }

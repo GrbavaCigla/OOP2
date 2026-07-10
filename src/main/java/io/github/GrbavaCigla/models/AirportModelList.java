@@ -19,22 +19,20 @@ public class AirportModelList extends ModelList<Airport> {
         return new CSV<Airport>() {
             @Override
             protected String[] getColumns() {
-                return new String[] { "Name", "Code", "X", "Y" };
+                return new String[] { "CODE", "NAME", "X", "Y" };
             }
 
             @Override
             protected String[] toRow(Airport a) {
                 return new String[] {
-                        a.getName(), a.getCode(),
+                        a.getCode(), a.getName(),
                         String.valueOf(a.getX()), String.valueOf(a.getY())
                 };
             }
 
             @Override
             protected Airport fromRow(String[] p) {
-                Airport a = new Airport(p[0], p[1], Float.parseFloat(p[2]), Float.parseFloat(p[3]));
-                if (p.length > 4) a.setVisible(Boolean.parseBoolean(p[4]));
-                return a;
+                return new Airport(p[1], p[0], Integer.parseInt(p[2]), Integer.parseInt(p[3]));
             }
         };
     }
@@ -44,17 +42,17 @@ public class AirportModelList extends ModelList<Airport> {
             @Override
             protected Map<String, Object> toObject(Airport a) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("Name", a.getName());
-                map.put("Code", a.getCode());
-                map.put("X", a.getX());
-                map.put("Y", a.getY());
+                map.put("code", a.getCode());
+                map.put("name", a.getName());
+                map.put("x", a.getX());
+                map.put("y", a.getY());
                 return map;
             }
 
             @Override
             protected Airport fromObject(Map<String, String> f) {
-                return new Airport(f.get("Name"), f.get("Code"),
-                        Float.parseFloat(f.get("X")), Float.parseFloat(f.get("Y")));
+                return new Airport(f.get("name"), f.get("code"),
+                        Integer.parseInt(f.get("x")), Integer.parseInt(f.get("y")));
             }
         };
     }

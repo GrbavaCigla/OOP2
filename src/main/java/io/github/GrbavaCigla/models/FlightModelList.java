@@ -53,7 +53,7 @@ public class FlightModelList extends ModelList<Flight> {
 
             @Override
             protected String[] getColumns() {
-                return new String[] { "Origin", "Destination", "Start", "Duration" };
+                return new String[] { "FROM", "TO", "DEPARTURE", "DURATION" };
             }
 
             @Override
@@ -62,7 +62,7 @@ public class FlightModelList extends ModelList<Flight> {
                         f.getOrigin() == null ? "null" : f.getOrigin().getCode(),
                         f.getDestination() == null ? "null" : f.getDestination().getCode(),
                         f.getStart().toString(),
-                        f.getFormattedDuration()
+                        String.valueOf(f.getDuration().toMinutes())
                 };
             }
 
@@ -73,9 +73,7 @@ public class FlightModelList extends ModelList<Flight> {
                 Airport destination = airportLookup.get(p[1]);
                 if (destination == null && !"null".equals(p[1])) throw new IllegalArgumentException("Unknown airport code: " + p[1]);
                 LocalTime start = LocalTime.parse(p[2]);
-                String[] durationParts = p[3].split(":");
-                Duration duration = Duration.ofHours(Long.parseLong(durationParts[0]))
-                        .plusMinutes(Long.parseLong(durationParts[1]));
+                Duration duration = Duration.ofMinutes(Long.parseLong(p[3]));
                 return new Flight(origin, destination, start, duration);
             }
         };
@@ -99,23 +97,21 @@ public class FlightModelList extends ModelList<Flight> {
             @Override
             protected Map<String, Object> toObject(Flight f) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("Origin", f.getOrigin() == null ? null : f.getOrigin().getCode());
-                map.put("Destination", f.getDestination() == null ? null : f.getDestination().getCode());
-                map.put("Start", f.getStart().toString());
-                map.put("Duration", f.getFormattedDuration());
+                map.put("from", f.getOrigin() == null ? null : f.getOrigin().getCode());
+                map.put("to", f.getDestination() == null ? null : f.getDestination().getCode());
+                map.put("departure", f.getStart().toString());
+                map.put("duration", f.getDuration().toMinutes());
                 return map;
             }
 
             @Override
             protected Flight fromObject(Map<String, String> f) {
-                Airport origin = airportLookup.get(f.get("Origin"));
-                if (origin == null && !"null".equals(f.get("Origin"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("Origin"));
-                Airport destination = airportLookup.get(f.get("Destination"));
-                if (destination == null && !"null".equals(f.get("Destination"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("Destination"));
-                LocalTime start = LocalTime.parse(f.get("Start"));
-                String[] durationParts = f.get("Duration").split(":");
-                Duration duration = Duration.ofHours(Long.parseLong(durationParts[0]))
-                        .plusMinutes(Long.parseLong(durationParts[1]));
+                Airport origin = airportLookup.get(f.get("from"));
+                if (origin == null && !"null".equals(f.get("from"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("from"));
+                Airport destination = airportLookup.get(f.get("to"));
+                if (destination == null && !"null".equals(f.get("to"))) throw new IllegalArgumentException("Unknown airport code: " + f.get("to"));
+                LocalTime start = LocalTime.parse(f.get("departure"));
+                Duration duration = Duration.ofMinutes(Long.parseLong(f.get("duration")));
                 return new Flight(origin, destination, start, duration);
             }
         };

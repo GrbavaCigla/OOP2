@@ -73,8 +73,8 @@ public class AirportDialog extends DerivedDialog {
 
             String name = nameField.getText().trim();
             String code = codeField.getValue().toString();
-            float x = xField.getValueAsFloat();
-            float y = yField.getValueAsFloat();
+            int x = xField.getValueAsInt();
+            int y = yField.getValueAsInt();
 
             if (airport == null) {
                 ModelStore.getAirportModelList()

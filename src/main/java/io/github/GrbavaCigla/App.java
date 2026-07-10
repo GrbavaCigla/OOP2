@@ -28,22 +28,22 @@ public class App {
             airportModel.addUniqueConstraint((a) -> a.getCode());
 
             List<Airport> airports = List.of(
-                    new Airport("Hartsfield-Jackson Atlanta International Airport", "ATL", -84.43f, 33.64f),
-                    new Airport("Dubai International Airport", "DXB", 55.36f, 25.25f),
-                    new Airport("Tokyo Haneda Airport", "HND", 139.78f, 35.55f),
-                    new Airport("London Heathrow Airport", "LHR", -0.45f, 51.47f),
-                    new Airport("Los Angeles International Airport", "LAX", -118.41f, 33.94f),
-                    new Airport("Chicago O'Hare International Airport", "ORD", -87.91f, 41.98f),
-                    new Airport("Istanbul Airport", "IST", 28.75f, 41.28f),
-                    new Airport("Belgrade Nikola Tesla Airport", "BEG", 20.31f, 44.82f),
-                    new Airport("Beijing Capital International Airport", "PEK", 116.59f, 40.08f),
-                    new Airport("Singapore Changi Airport", "SIN", 103.99f, 1.36f),
-                    new Airport("Hong Kong International Airport", "HKG", 113.92f, 22.31f),
-                    new Airport("Shanghai Pudong International Airport", "PVG", 121.80f, 31.14f),
-                    new Airport("Paris Charles de Gaulle Airport", "CDG", 2.55f, 49.01f),
-                    new Airport("Sydney Kingsford Smith Airport", "SYD", 151.18f, -33.94f),
-                    new Airport("Mexico City International Airport", "MEX", -99.07f, 19.44f),
-                    new Airport("Lisbon Humberto Delgado Airport", "LIS", -9.13f, 38.77f));
+                    new Airport("Hartsfield-Jackson Atlanta International Airport", "ATL", -84, 34),
+                    new Airport("Dubai International Airport", "DXB", 55, 25),
+                    new Airport("Tokyo Haneda Airport", "HND", 140, 36),
+                    new Airport("London Heathrow Airport", "LHR", 0, 51),
+                    new Airport("Los Angeles International Airport", "LAX", -118, 34),
+                    new Airport("Chicago O'Hare International Airport", "ORD", -88, 42),
+                    new Airport("Istanbul Airport", "IST", 29, 41),
+                    new Airport("Belgrade Nikola Tesla Airport", "BEG", 20, 45),
+                    new Airport("Beijing Capital International Airport", "PEK", 117, 40),
+                    new Airport("Singapore Changi Airport", "SIN", 104, 1),
+                    new Airport("Hong Kong International Airport", "HKG", 114, 22),
+                    new Airport("Shanghai Pudong International Airport", "PVG", 122, 31),
+                    new Airport("Paris Charles de Gaulle Airport", "CDG", 3, 49),
+                    new Airport("Sydney Kingsford Smith Airport", "SYD", 151, -34),
+                    new Airport("Mexico City International Airport", "MEX", -99, 19),
+                    new Airport("Lisbon Humberto Delgado Airport", "LIS", -9, 39));
 
             airports.forEach(airportModel::add);
 

@@ -6,9 +6,9 @@ import java.text.ParseException;
 import javax.swing.text.NumberFormatter;
 
 public class CoordinateFormatter extends NumberFormatter {
-    private float limit;
+    private int limit;
 
-    public CoordinateFormatter(NumberFormat format, float limit) {
+    public CoordinateFormatter(NumberFormat format, int limit) {
         super(format);
         this.limit = limit;
     }
@@ -16,7 +16,7 @@ public class CoordinateFormatter extends NumberFormatter {
     @Override
     public Object stringToValue(String text) throws ParseException {
         Object value = super.stringToValue(text);
-        float v = ((Number) value).floatValue();
+        int v = ((Number) value).intValue();
 
         if (v < -limit || v > limit) {
             throw new ParseException("Out of range", 0);
