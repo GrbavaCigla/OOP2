@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -28,6 +31,7 @@ public class MainWindow extends JFrame {
         setTitle(title);
         setSize(size);
         setLayout(new BorderLayout());
+        setJMenuBar(createMenuBar());
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -64,5 +68,22 @@ public class MainWindow extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem importItem = new JMenuItem("Import");
+        importItem.addActionListener(e -> {});
+        fileMenu.add(importItem);
+
+        JMenuItem exportItem = new JMenuItem("Export");
+        exportItem.addActionListener(e -> {});
+        fileMenu.add(exportItem);
+
+        menuBar.add(fileMenu);
+        return menuBar;
     }
 }
