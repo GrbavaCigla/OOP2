@@ -6,6 +6,7 @@ public class Constants {
     public static final int WINDOW_HEIGHT = 700;
     public static final int WINDOW_WIDTH = 1000;
     public static final int AIRPORT_MARKER_SIZE = 14;
+    public static final int FLIGHT_MARKER_SIZE = 10;
     public static final int AIRPORT_X_LIMIT = 180;
     public static final int AIRPORT_Y_LIMIT = 90;
     public static final int SIM_STEP_MINUTES = 10;

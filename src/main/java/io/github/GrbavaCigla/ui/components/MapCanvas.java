@@ -156,7 +156,11 @@ public class MapCanvas extends JPanel {
 
         g.setColor(Color.BLUE);
 
-        g.fillOval(px, py, 10, 10);
+        g.fillOval(
+                px - Constants.FLIGHT_MARKER_SIZE / 2,
+                py - Constants.FLIGHT_MARKER_SIZE / 2,
+                Constants.FLIGHT_MARKER_SIZE,
+                Constants.FLIGHT_MARKER_SIZE);
     }
 
     private void onMouseClicked(MouseEvent e) {
