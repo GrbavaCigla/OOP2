@@ -163,32 +163,53 @@ public class MapCanvas extends JPanel {
                 Constants.FLIGHT_MARKER_SIZE);
     }
 
+    protected void onAirportClicked(Airport airport) {
+        if (selectedAirport == null) {
+            timer.stop();
+            selectedAirport = airport;
+            selectedIsColored = true;
+            timer.restart();
+            InactivityTimer.getInstance().suspend();
+        } else if (airport == selectedAirport) {
+            timer.stop();
+            selectedAirport = null;
+            selectedIsColored = false;
+            InactivityTimer.getInstance().resume();
+        } else {
+            timer.stop();
+            selectedAirport = airport;
+            selectedIsColored = true;
+            timer.start();
+        }
+        repaint();
+    }
+
+    protected void onFlightClicked(ScheduledFlight flight) {
+    }
+
     private void onMouseClicked(MouseEvent e) {
         for (Airport a : airports) {
             int x = getPixelX(a.getX());
             int y = getPixelY(a.getY());
 
-            if (Math.abs(e.getX() - x) < Constants.AIRPORT_MARKER_SIZE
-                    && Math.abs(e.getY() - y) < Constants.AIRPORT_MARKER_SIZE) {
-                if (selectedAirport == null) {
-                    timer.stop();
-                    selectedAirport = a;
-                    selectedIsColored = true;
-                    timer.restart();
-                    InactivityTimer.getInstance().suspend();
-                } else if (a == selectedAirport) {
-                    timer.stop();
-                    selectedAirport = null;
-                    selectedIsColored = false;
-                    InactivityTimer.getInstance().resume();
-                } else {
-                    timer.stop();
-                    selectedAirport = a;
-                    selectedIsColored = true;
-                    timer.start();
-                }
-                repaint();
-                break;
+            if (Math.abs(e.getX() - x) < Constants.AIRPORT_MARKER_SIZE / 2
+                    && Math.abs(e.getY() - y) < Constants.AIRPORT_MARKER_SIZE / 2) {
+                onAirportClicked(a);
+                return;
+            }
+        }
+
+        for (ScheduledFlight sf : flights) {
+            float[] pos = sf.getPosition(scheduler.getTime());
+            int px = getPixelX(pos[0]);
+            int py = getPixelY(pos[1]);
+
+            int dx = e.getX() - px;
+            int dy = e.getY() - py;
+            int r = Constants.FLIGHT_MARKER_SIZE / 2;
+            if (dx * dx + dy * dy < r * r) {
+                onFlightClicked(sf);
+                return;
             }
         }
     }
