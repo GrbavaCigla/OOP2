@@ -29,6 +29,7 @@ public class MapCanvas extends JPanel {
     private JLabel mousePositionLabel;
     private FlightScheduler scheduler;
     private Timer timer;
+    private float zoom = 1.0f;
 
     public MapCanvas() {
         setBackground(Color.white);
@@ -70,6 +71,16 @@ public class MapCanvas extends JPanel {
         });
     }
 
+    public void zoomIn() {
+        zoom = Math.min(1.0f, zoom + 0.1f);
+        repaint();
+    }
+
+    public void zoomOut() {
+        zoom = Math.max(0.1f, zoom - 0.1f);
+        repaint();
+    }
+
     private List<Airport> getVisibleAirports() {
         return ModelStore.getAirportModelList().getModels().stream().filter(a -> a.getVisible()).toList();
     }
@@ -106,19 +117,19 @@ public class MapCanvas extends JPanel {
     };
 
     private int getPixelX(float x) {
-        return Math.round((Constants.AIRPORT_X_LIMIT + x) / 2 / Constants.AIRPORT_X_LIMIT * getSize().width);
+        return Math.round((Constants.AIRPORT_X_LIMIT + x * zoom) / 2 / Constants.AIRPORT_X_LIMIT * getWidth());
     }
 
     private int getPixelY(float y) {
-        return Math.round((Constants.AIRPORT_Y_LIMIT - y) / (2.0f * Constants.AIRPORT_Y_LIMIT) * getHeight());
+        return Math.round((Constants.AIRPORT_Y_LIMIT - y * zoom) / 2 / Constants.AIRPORT_Y_LIMIT * getHeight());
     }
 
     private float getCoordinateX(int x) {
-        return ((x * 2.0f * Constants.AIRPORT_X_LIMIT) / getSize().width) - Constants.AIRPORT_X_LIMIT;
+        return (((x * 2.0f * Constants.AIRPORT_X_LIMIT) / getWidth()) - Constants.AIRPORT_X_LIMIT) / zoom;
     }
 
     private float getCoordinateY(int y) {
-        return Constants.AIRPORT_Y_LIMIT - ((y * 2.0f * Constants.AIRPORT_Y_LIMIT) / getHeight());
+        return (Constants.AIRPORT_Y_LIMIT - (y * 2.0f * Constants.AIRPORT_Y_LIMIT) / getHeight()) / zoom;
     }
 
     private void drawAirport(Graphics g, Airport airport) {
